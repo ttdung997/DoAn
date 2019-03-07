@@ -1,0 +1,28 @@
+{
+  "name": "do an",
+  "description": "do an",
+  "main": "do an",
+  "authors": [
+    "redhero"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "do",
+    "an"
+  ],
+  "homepage": "https://github.com/Redhero1996/DoAn.git",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap4": "^4.3.1",
+    "jQuery": "^3.3.1",
+    "Font-Awesome": "^5.7.2"
+  }
+}

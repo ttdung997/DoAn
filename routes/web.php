@@ -11,6 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['prefix' => 'admin'], function() {
+    Route::view('/', 'admin/users/index');
+    Route::view('/certificates', 'admin/certificates/index')->name('certificates');
+    Route::view('/requests', 'admin/requests/index')->name('requests');
 });

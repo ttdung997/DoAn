@@ -34,6 +34,6 @@ return [
     ),
 
     'image_paths' => [
-        'avata_default' => '/assets/img/image.png',
+        'avata_default' => '/assets/images/image.png',
     ],
 ];
