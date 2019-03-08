@@ -18,7 +18,7 @@ use Faker\Generator as Faker;
 $factory->define(User::class, function (Faker $faker) {
     $gender = $faker->randomElement(['male', 'female']);
     $role_id = $faker->randomElement(['male', 'female']);
-    $company = $faker->randomElement(['Bach Mai', 'Hoai Duc', 'Y Ha Noi', 'Thanh Nhan']);
+    $company = $faker->randomElement(['Bạch Mai', 'Hoài Đức', 'Thanh Nhàn', 'Y Hà Nội']);
 
     return [
         'name' => $faker->name,
@@ -31,7 +31,7 @@ $factory->define(User::class, function (Faker $faker) {
         'staying_address' => $faker->address,
         'job' => 'doctor',
         'company' => $company,
-        'avatar' => 'image.png',
+        'avatar' => 'images.jpeg',
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
         'password' => bcrypt('123456'),

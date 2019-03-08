@@ -33,20 +33,20 @@
             <ul class="vertical-nav-menu">
                 <li class="app-sidebar__heading">Dashboards</li>
                 <li>
-                    <a href="/" class="mm-active">
+                    <a href="{{ route('users.index') }}" class="mm-active">
                         Dashboard
                     </a>
                 </li>
                 <li class="app-sidebar__heading">List</li>
                 <li>
-                    <a href="/">
+                    <a href="#">
                         <i class="metismenu-icon fas fa-users-cog"></i>
                         Manage Users
                         <i class="metismenu-state-icon fas fa-angle-down caret-left"></i>
                     </a>
                     <ul>
                         <li>
-                            <a href="#">
+                            <a href="{{ route('users.index') }}">
                                 <i class="metismenu-icon"></i>List Users
                             </a>
                         </li>
@@ -64,7 +64,7 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="{{ route('certificates') }}">
+                            <a href="{{ route('certificates.index') }}">
                                 <i class="metismenu-icon"></i>List Certificates
                             </a>
                         </li>
@@ -82,7 +82,7 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="{{ route('requests') }}">
+                            <a href="{{ route('number-requests.index') }}">
                                 <i class="metismenu-icon"></i>List Requests
                             </a>
                         </li>
