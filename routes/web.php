@@ -12,7 +12,7 @@
 */
 
 Route::group(['prefix' => 'admin'], function() {
-    Route::view('/', 'admin/users/index');
-    Route::view('/certificates', 'admin/certificates/index')->name('certificates');
-    Route::view('/requests', 'admin/requests/index')->name('requests');
+	Route::resource('users', 'UserController')->only(['index', 'show']);
+	Route::resource('certificates', 'CertificateController')->only(['index', 'show']);
+	Route::resource('number-requests', 'NumberRequestController')->only(['index', 'show']);
 });

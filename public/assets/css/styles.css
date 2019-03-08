@@ -2,3 +2,21 @@ div.header-admin {
     font-size: 36px;
     font-weight: bold;
 }
+
+div.emp-profile {
+	margin-top: 15px;
+}
+
+a#home-tab {
+	color: #000;
+}
+
+span.email, span.role {
+	color: #0056b3;
+}
+
+div.profile-img>img.avatar {
+	border-radius: 10%;
+	width: 275px;
+	height: 186px;
+}
