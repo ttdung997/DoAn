@@ -46,7 +46,11 @@
                         <div class="widget-content-left">
                             <div class="btn-group">
                                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                                    <img width="42" class="rounded-circle" src="{{ config('view.image_paths.avata_default') }}" alt="">
+                                    @if (isset(Auth::user()->avatar))
+                                        <img width="42" height="42" class="rounded-circle" src="{{ asset('assets/images/' . Auth::user()->avatar) }}" alt="Admin">
+                                    @else
+                                        <img width="42" class="rounded-circle" src="{{ config('view.image_paths.avata_default') }}" alt="Doctor">
+                                    @endif
                                     <i class="fas fa-angle-down ml-2 opacity-8"></i>
                                 </a>
                                 <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
@@ -55,16 +59,16 @@
                                     <h6 tabindex="-1" class="dropdown-header">Header</h6>
                                     <button type="button" tabindex="0" class="dropdown-item">Actions</button>
                                     <div tabindex="-1" class="dropdown-divider"></div>
-                                    <button type="button" tabindex="0" class="dropdown-item">Dividers</button>
+                                    <a href="{{ route('admin.logout') }}" tabindex="0" class="dropdown-item">Đăng xuất</a>
                                 </div>
                             </div>
                         </div>
                         <div class="widget-content-left  ml-3 header-user-info">
                             <div class="widget-heading">
-                                Hero
+                                {{ Auth::user()->name }}
                             </div>
                             <div class="widget-subheading">
-                                Admin
+                                {{ Auth::user()->role->name }}
                             </div>
                         </div>
                         <div class="widget-content-right header-user-info ml-3">
