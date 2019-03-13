@@ -23,7 +23,18 @@ class UserController extends Controller
     public function index()
     {
         $with = ['role'];
-        $users = $this->user->getData($with);
+        $dataSelect = [
+            'id',
+            'name',
+            'birthday',
+            'id_number',
+            'id_address',
+            'job',
+            'company',
+            'email',
+            'role_id',
+        ];
+        $users = $this->user->getData($with, [], $dataSelect);
 
         return view('admin.users.index', compact('users'));
     }

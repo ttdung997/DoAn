@@ -7,12 +7,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class NumberRequest extends Model
 {
-	use SoftDeletes;
+    use SoftDeletes;
 
     protected $guarded = ['id'];
 
     public function user()
     {
-    	return $this->belongsTo(User::class);
+        return $this->belongsTo(\App\User::class);
+    }
+
+    public function token()
+    {
+        return $this->belongsTo(Token::class);
     }
 }

@@ -20,3 +20,8 @@ div.profile-img>img.avatar {
 	width: 275px;
 	height: 186px;
 }
+
+input.requests {
+	border: none;
+	background-color: #f1f4f6 !important;
+}
