@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\NumberRequest\NumberRequestRepositoryInterface;
+use App\User;
+use App\Models\Token;
 
 class NumberRequestController extends Controller
 {
@@ -20,7 +22,16 @@ class NumberRequestController extends Controller
      */
     public function index()
     {
-        $numberRequests = $this->numberRequest->getData();
+        $with = ['user'];
+        $dataSelect = [
+            'id',
+            'user_id',
+            'days_to_return',
+            'status',
+            'created_at',
+            'updated_at',
+        ];
+        $numberRequests = $this->numberRequest->getData($with, [], $dataSelect);
 
         return view('admin.requests.index', compact('numberRequests'));
     }
@@ -65,7 +76,10 @@ class NumberRequestController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tokens = Token::all();
+        $numberRequest = $this->numberRequest->findById($id);
+
+        return view('admin.requests.edit', compact('numberRequest', 'tokens'));
     }
 
     /**
@@ -77,7 +91,7 @@ class NumberRequestController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        dd($request->all());
     }
 
     /**

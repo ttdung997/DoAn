@@ -1,6 +1,7 @@
 <?php
 
 use App\User;
+use App\Models\NumberRequest;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
@@ -37,5 +38,30 @@ $factory->define(User::class, function (Faker $faker) {
         'password' => bcrypt('123456'),
         'role_id' => 2,
         'remember_token' => Str::random(10),
+    ];
+});
+
+$factory->define(NumberRequest::class, function (Faker $faker) {
+    $user_id = $faker->randomElement([1, 2, 3, 4, 5, 8]);
+    $token = $faker->randomElement([1, 2, 3, 4]);
+    $username = $faker->randomElement(['Leo Swift', 'Mr. Elijah McCullough', 'Prof. Brook Denesik IV', 'Miss Adelia Runte', 'Prof. Hester Kuhic', 'Vladimir Walter PhD']);
+    $company = $faker->randomElement(['Bạch Mai', 'Hoài Đức', 'Thanh Nhàn', 'Y Hà Nội']);
+
+    return [
+        'user_id' => $user_id,
+        'end_entity_profile' => 'EntityProfilesEndUser',
+        'username' => $username,
+        'password' => bcrypt('123456'),
+        'email' => $faker->unique()->safeEmail,
+        'common_name' => $username,
+        'organization' => $company,
+        'country' => 'Việt Nam',
+        'locality' => 'Việt Nam',
+        'province' => '',
+        'certificate_profile' => 'CertificateProfileEndUser',
+        'CA' => 'CAHust',
+        'token_id' => $token,
+        'days_to_return' => $faker->date($format = 'Y-m-d', $min = 'now'),
+        'status' => 0,
     ];
 });

@@ -15,7 +15,8 @@ Route::post('admin/login', 'AdminController@postLogin');
 Route::get('admin/logout', 'AdminController@logout')->name('admin.logout');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
-	Route::resource('users', 'UserController')->only(['index', 'show']);
+	Route::resource('users', 'UserController');
 	Route::resource('certificates', 'CertificateController')->only(['index', 'show']);
-	Route::resource('number-requests', 'NumberRequestController')->only(['index', 'show']);
+	Route::resource('number-requests', 'NumberRequestController')->except(['show', 'destroy']);
+	Route::post('number-requests/handle/{number-request}', 'NumberRequestController@handle')->name('number-requests.handle');
 });

@@ -87,12 +87,12 @@
                     @foreach ($numberRequests as $key => $numberRequest)
                         <tr>
                             <td>{{ $key + 1 }}</td>
-                            <td>{{ $numberRequest->user_id }}</td>
+                            <td>{{ $numberRequest->user->name }}</td>
                             <td>{{ date('d-m-Y', strtotime($numberRequest->created_at)) }}</td>
-                            <td>{{ $numberRequest->days_to_return }}</td>
-                            <td>{{ date('d-m-Y', strtotime($numberRequest->updated_at)) }}</td>
-                            <td>{{ $numberRequest->status }}</td>
-                            <td><a href="#"><i class="far fa-eye"></i></a></td>
+                            <td>{{ date('d-m-Y', strtotime($numberRequest->days_to_return)) }}</td>
+                            <td>{{ $numberRequest->status == 1 ? date('d-m-Y', strtotime($numberRequest->updated_at)) : 'NULL' }}</td>
+                            <td>{{ setStatus($numberRequest->status) }}</td>
+                            <td class="text-center"><a href="{{ route('number-requests.edit', $numberRequest->id) }}"><i class="fas fa-eye mr-3"></i>Xem</a></td>
                         </tr>
                     @endforeach                    
                 </tbody>
