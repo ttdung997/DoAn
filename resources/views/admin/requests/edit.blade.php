@@ -15,7 +15,6 @@
             </div>
         </div>
         <div class="row mt-5">
-            {{-- <div class="col-md-1"></div> --}}
             <div class="col-md-10">
             {!! Form::model($numberRequest, ['method' => 'PUT', 'route' => ['number-requests.update', $numberRequest->id]]) !!}
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -47,40 +46,60 @@
                     <div class="col-md-2 mt-5 pt-1 ml-5">
                         <span><strong>Tên gọi chung</strong></span>
                     </div>
-                    <div class="col-md-6 mt-5">    
-                        <input type="text" class="form-control" name="common_name" value="{{ $numberRequest->common_name }}" >
+                    <div class="col-md-6 mt-5">
+                        @if ($numberRequest->status == 0)
+                            <input type="text" class="form-control" name="common_name" value="{{ $numberRequest->common_name }}" required>
+                        @else 
+                            <input type="text" class="form-control" name="common_name" value="{{ $numberRequest->common_name }}" disabled>
+                        @endif
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-2 mt-5 pt-1 ml-5">
                         <span><strong>Cơ quan</strong></span>
                     </div>
-                    <div class="col-md-6 mt-5">    
-                        <input type="text" class="form-control" name="organization" value="{{ $numberRequest->organization }}" >
+                    <div class="col-md-6 mt-5">
+                        @if ($numberRequest->status == 0)    
+                            <input type="text" class="form-control" name="organization" value="{{ $numberRequest->organization }}" required>
+                        @else 
+                            <input type="text" class="form-control" name="organization" value="{{ $numberRequest->organization }}" disabled>
+                        @endif    
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-2 mt-5 pt-1 ml-5">
                         <span><strong>Quốc gia</strong></span>
                     </div>
-                    <div class="col-md-6 mt-5">    
-                        <input type="text" class="form-control" name="country" value="{{ $numberRequest->country }}" >
+                    <div class="col-md-6 mt-5">
+                        @if ($numberRequest->status == 0)
+                            <input type="text" class="form-control" name="country" value="{{ $numberRequest->country }}" required>
+                        @else 
+                            <input type="text" class="form-control" name="country" value="{{ $numberRequest->country }}" disabled>
+                        @endif
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-2 mt-5 pt-1 ml-5">
-                        <span><strong>Địa phương</strong></span>
+                        <span><strong>Quận/Huyện</strong></span>
                     </div>
-                    <div class="col-md-6 mt-5">    
-                        <input type="text" class="form-control" name="locality" value="{{ $numberRequest->locality }}" >
+                    <div class="col-md-6 mt-5">
+                        @if ($numberRequest->status == 0)
+                            <input type="text" class="form-control" name="locality" value="{{ $numberRequest->locality }}" required>
+                        @else 
+                            <input type="text" class="form-control" name="locality" value="{{ $numberRequest->locality }}" disabled>
+                        @endif
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-2 mt-5 pt-1 ml-5">
-                        <span><strong>Tỉnh thành</strong></span>
+                        <span><strong>Tỉnh/TP</strong></span>
                     </div>
-                    <div class="col-md-6 mt-5">    
-                        <input type="text" class="form-control" name="province" value="{{ !empty($numberRequest->province) ? $numberRequest->province : 'NULL' }}" >
+                    <div class="col-md-6 mt-5">
+                        @if ($numberRequest->status == 0)   
+                            <input type="text" class="form-control" name="province" value="{{ !empty($numberRequest->province) ? $numberRequest->province : '' }}" required>
+                        @else 
+                            <input type="text" class="form-control" name="province" value="{{ !empty($numberRequest->province) ? $numberRequest->province : '' }}" disabled>
+                        @endif
                     </div>
                 </div>
                 {!! Form::hidden('password', $numberRequest->certificate_profile) !!}
@@ -88,8 +107,12 @@
                     <div class="col-md-2 mt-5 pt-1 ml-5">
                         <span><strong>CA</strong></span>
                     </div>
-                    <div class="col-md-6 mt-5">    
-                        <input type="text" class="form-control" name="CA" value="{{ $numberRequest->CA }}" >
+                    <div class="col-md-6 mt-5">
+                        @if ($numberRequest->status == 0)   
+                            <input type="text" class="form-control" name="CA" value="{{ $numberRequest->CA }}" required>
+                        @else 
+                            <input type="text" class="form-control" name="CA" value="{{ $numberRequest->CA }}" disabled>
+                        @endif
                     </div>
                 </div>
                 <div class="row">
@@ -97,8 +120,11 @@
                         <span><strong>Token</strong></span>
                     </div>
                     <div class="col-md-6 mt-5">
+                        @if ($numberRequest->status == 0)
                         {!! Form::select('token_id', $tokens->pluck('name', 'id'), $numberRequest->token_id, ['class' => 'custom-select']) !!}
-                        
+                        @else 
+                            <input type="text" class="form-control" name="token_id" value="{{ $numberRequest->token->name }}" disabled>
+                        @endif
                     </div>
                 </div>
                 <div class="row">
@@ -110,9 +136,35 @@
                         {!! Form::hidden('days_to_return', $numberRequest->days_to_return) !!}
                     </div>
                 </div>
+                @if ($numberRequest->status == 0)
+                    <div class="row">
+                        <div class="col-md-2 mt-5 pt-1 ml-5">
+                            <span><strong>Trạng thái</strong></span>
+                        </div>
+                        <div class="col-md-6 mt-5">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <span class="mr-5">
+                                    <input type="radio" id="customRadioInline1" name="status" class="custom-control-input" {{ $numberRequest->status == 0 ? 'checked' : '' }} value="0">
+                                    <label class="custom-control-label" for="customRadioInline1">Đang chờ</label>
+                                    
+                                </span>
+                                <span class="mr-5">
+                                    <input type="radio" id="customRadioInline2" name="status" class="custom-control-input" {{ $numberRequest->status == 1 ? 'checked' : '' }} value="1">
+                                    <label class="custom-control-label" for="customRadioInline2">Đã xử lý</label>
+                                </span>
+                                <span class="mr-5">
+                                    <input type="radio" id="customRadioInline2" name="status" class="custom-control-input" {{ $numberRequest->status == 2 ? 'checked' : '' }} value="2">
+                                    <label class="custom-control-label" for="customRadioInline2">Hủy yêu cầu</label>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 <div class="row">
                     <div class="col-md-10 mt-5 pt-1 ml-5">
-                        <input type="submit" value="Chấp nhận" class="btn btn-success mr-5">
+                        @if ($numberRequest->status == 0)
+                            <input type="submit" value="Chấp nhận" class="btn btn-success mr-5">
+                        @endif
                         <a href="{{ route('number-requests.index') }}" class="btn btn-secondary">
                             Cancel
                         </a>
