@@ -59,26 +59,9 @@ abstract class BaseRepository implements RepositoryInterface
         return $this->model->destroy($id);
     }
 
-    public function saveFile($currentFile, $newFile, $path, $width, $height)
+    public function create($data = [])
     {
-        if (!File::exists($path)) {
-            File::makeDirectory($path);
-        }
-
-        $filename = time() . '_' . str_slug($newFile->getClientOriginalName()) . '.' . $newFile->getClientOriginalExtension();
-
-        $file_path = public_path($path . $filename);
-
-        ResizeImage::make($newFile->getRealPath())->resize($width, $height)->save($file_path);
-
-        return $filename;
-    }
-
-    public function create($data)
-    {
-        $model = $this->model->create($data);
-
-        return $model;
+        return $this->model->create($data);
     }
 
     public function slug($str)

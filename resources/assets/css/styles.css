@@ -4,26 +4,27 @@ div.header-admin {
 }
 
 div.emp-profile {
-	margin-top: 15px;
+    margin-top: 15px;
 }
 
 a#home-tab {
-	color: #000;
+    color: #000;
 }
 
-span.email, span.role {
-	color: #0056b3;
+span.email,
+span.role {
+    color: #0056b3;
 }
 
 div.profile-img>img.avatar {
-	border-radius: 10%;
-	width: 275px;
-	height: 186px;
+    border-radius: 10%;
+    width: 275px;
+    height: 186px;
 }
 
 input.requests {
-	border: none;
-	background-color: #f1f4f6 !important;
+    border: none;
+    background-color: #f1f4f6 !important;
 }
 
 p.help-block.validated {
@@ -32,6 +33,11 @@ p.help-block.validated {
     text-align: left;
     padding-left: 10px;
 }
+
 span.help-block {
     color: red !important;
+}
+
+.account {
+    border: none;
 }

@@ -9,6 +9,11 @@
 
 @section('content')
     <div class="app-page-title">
+        @if (Session::has('success'))
+            <div class="alert alert-success" role="alert">
+                <strong>{{ Session::get('success') }}</strong>
+            </div>
+        @endif
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
@@ -16,6 +21,7 @@
                     </i>
                 </div>
                 <div>Manage Users</div>
+
             </div>
             <div class="page-title-actions">
                 <div class="btn-shadow mr-3 btn btn-dark">
@@ -57,12 +63,37 @@
                             <td><a href="{{ route('users.show', $user->id) }}">
                                 <i class="fas fa-eye"></i>
                             </a></td>
-                            <td><a href="#">
+                            <td><a href="{{ route('users.edit', $user->id) }}">
                                 <i class="fas fa-pen"></i>
                             </a></td>
-                            <td><a href="#">
-                                <i class="fas fa-trash"></i>
-                            </a></td>
+                            <td>
+                                <a class="delete" data-toggle="modal" href="#delete-{{$user->id}}">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                                <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+                                    <div class="modal fade" id="delete-{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <h4 class="modal-title">{{ __('translate.del_confirm') }}</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h5>{{ __('translate.del_alert') }}</h5>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    {!! Form::open(['route' => ['users.destroy', $user->id], 'method' => 'DELETE']) !!}
+                                                    <button type="submit" class="btn btn-danger mb-1">{{ __('translate.delete') }}</button>
+                                                    {!! Form::close() !!}
+                                                    <button type="button" class="btn btn-light" data-dismiss="modal" >{{ __('translate.close') }}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -77,6 +108,10 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#example').DataTable();
+
+            setTimeout(function() {
+                $('.alert').fadeOut('slow');
+            }, 3000);
         });
     </script>
 @endsection
