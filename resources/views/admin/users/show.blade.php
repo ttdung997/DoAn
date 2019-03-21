@@ -3,6 +3,11 @@
 @section('title', 'Tài khoản')
 
 @section('content')
+    @if (Session::has('success'))
+        <div class="alert alert-success" role="alert">
+            <strong>{{ Session::get('success') }}</strong>
+        </div>
+    @endif
 	<div class="container emp-profile">
         <form method="post">
             <div class="row">
@@ -27,7 +32,7 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                	<a class="btn btn-info" href="{{ route('users.index') }}">Trang chủ</a>
+                    <a class="btn btn-info" href="{{ route('users.index') }}">Trang chủ</a>
                 </div>
             </div>
             <div class="row">
@@ -116,10 +121,24 @@
                                     <p>{{ $user->id_address }}</p>
                                 </div>
                             </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-secondary">Sửa thông tin</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </form>           
+        </form>
     </div>
+@endsection
+@section('scripts')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            setTimeout(function() {
+                $('.alert').fadeOut('slow');
+            }, 3000);
+        });
+    </script>
 @endsection

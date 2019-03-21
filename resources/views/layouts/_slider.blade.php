@@ -51,7 +51,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="elements-dropdowns.html">
+                            <a href="{{ route('users.create') }}">
                                 <i class="metismenu-icon"></i>Create User
                             </a>
                         </li>

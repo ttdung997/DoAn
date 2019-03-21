@@ -10,14 +10,14 @@ class AdminController extends Controller
 {
     public function getLogin()
     {
-    	if (Auth::check()) {
-    		foreach (\Session::all() as $key => $value) {
-    			if ($value == Auth::id()) {
-    				return redirect()->route('users.index');
-    			}
-    		}
-    	}
-    	return view('admin.login');
+        if (Auth::check()) {
+            foreach (\Session::all() as $key => $value) {
+                if ($value == Auth::id()) {
+                    return redirect()->route('users.index');
+                }
+            }
+        }
+        return view('admin.login');
     }
 
     public function postlogin(AdminRequest $request)
@@ -37,13 +37,13 @@ class AdminController extends Controller
                 return redirect()->route('admin.login')->with('error', 'Email hoặc mật khẩu không dúng');
             }
         } else {
-        	return redirect()->route('admin.login')->with('error', 'Email hoặc mật khẩu không dúng');
+            return redirect()->route('admin.login')->with('error', 'Email hoặc mật khẩu không dúng');
         }
     }
 
     public function logout()
     {
-    	foreach (session()->all() as $key => $value){
+        foreach (session()->all() as $key => $value){
             if ($value == Auth::id()) {
                 session()->forget($key);
             }
