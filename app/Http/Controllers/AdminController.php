@@ -12,7 +12,6 @@ class AdminController extends Controller
     {
         if (Auth::check()) {
             return redirect()->route('users.index');
-            \Session::flush();
         }
         return view('admin.login');
     }
@@ -23,22 +22,17 @@ class AdminController extends Controller
             $user = User::where('email', '=', $request->email)->firstOrFail();
             if ($user->role_id == 1) {
                 return redirect()->route('users.index');
-                \Session::flush();
             }
             else {
-                \Session::flush();
                 return redirect()->route('admin.login')->with('error', 'Email hoặc mật khẩu không dúng');
             }
         } else {
-            \Session::flush();
             return redirect()->route('admin.login')->with('error', 'Email hoặc mật khẩu không dúng');
         }
     }
 
     public function logout()
     {
-        \Session::flush();
-
         return redirect()->route('admin.login');
     }
 }
