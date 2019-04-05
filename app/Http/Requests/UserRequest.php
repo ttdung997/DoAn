@@ -34,7 +34,7 @@ class UserRequest extends FormRequest
             'job' => 'required',
             'company' => 'required',
             'email' => 'required|email|unique:users|max:255',
-            'password' => 'required|confirmed|min:6',
+            'password' => 'required|confirmed|min:8',
             'role_id' => '',
             'avatar' => 'sometimes|image',
         ];

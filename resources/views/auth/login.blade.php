@@ -13,11 +13,11 @@
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
             <div class="card card-signin my-5">
             <div class="card-body">
-                <h5 class="card-title text-center">Sign In</h5>
+                <h5 class="card-title text-center">Đăng nhập</h5>
                 {!! Form::open(['route' => 'login', 'method' => 'POST', 'class' => 'form-signin']) !!}
                     <div class="form-label-group">
                         <input type="email" id="inputEmail" class="form-control" name="email" placeholder="Email address" value="{{ old('email') }}" required autofocus>
-                        <label for="inputEmail">Email address</label>
+                        <label for="inputEmail">Email</label>
                     </div>
                     @if ($errors->has('email'))
                         <p class="help-block validated" role="alert">
@@ -27,7 +27,7 @@
 
                     <div class="form-label-group">
                         <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required>
-                        <label for="inputPassword">Password</label>
+                        <label for="inputPassword">Mật khẩu</label>
                     </div>
                     @if ($errors->has('password'))
                         <p class="help-block validated" role="alert">
@@ -36,10 +36,9 @@
                     @endif
 
                     <div class="custom-control custom-checkbox mb-3">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1">
-                        <label class="custom-control-label" for="customCheck1">Remember password</label>
+                        <small><a href="{{ route('password.request') }}">Quên mật khẩu?</a></small>
                     </div>
-                    <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+                    <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Đăng nhập</button>
                 {!! Form::close() !!}
             </div>
             </div>

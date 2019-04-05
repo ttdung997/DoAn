@@ -54,7 +54,7 @@
                                     <i class="fas fa-angle-down ml-2 opacity-8"></i>
                                 </a>
                                 <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
-                                    <button type="button" tabindex="0" class="dropdown-item"><i class="fas fa-user-md mr-1"></i>Tài khoản</button>
+                                    <a tabindex="0" class="dropdown-item" href="{{ route('users.show', Auth::id()) }}"><i class="fas fa-user-md mr-1"></i>Tài khoản</a>
                                     <div tabindex="-1" class="dropdown-divider"></div>
                                     <a href="{{ route('admin.logout') }}" tabindex="0" class="dropdown-item"><i class="fas fa-sign-out-alt mr-1"></i>Đăng xuất</a>
                                 </div>
