@@ -36,4 +36,6 @@ return [
     'image_paths' => [
         'avata_default' => '/assets/images/image.png',
     ],
+
+    'url' => 'http://127.0.0.1:8000',
 ];
