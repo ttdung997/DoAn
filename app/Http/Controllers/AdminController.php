@@ -22,8 +22,7 @@ class AdminController extends Controller
             $user = User::where('email', '=', $request->email)->firstOrFail();
             if ($user->role_id == 1) {
                 return redirect()->route('users.index');
-            }
-            else {
+            } else {
                 return redirect()->route('admin.login')->with('error', 'Email hoặc mật khẩu không dúng');
             }
         } else {

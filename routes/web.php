@@ -27,5 +27,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
 Route::get('logout', 'HomeController@logout')->name('logout');
 
 Route::group(['middleware' => 'auth'], function() {
-	Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/', 'HomeController@index')->name('home');
+    Route::resource('register-request', 'RegisterRequestController')->except(['index', 'destroy']);
 });

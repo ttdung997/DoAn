@@ -44,6 +44,43 @@
                 <div class="widget-content p-0">
                     <div class="widget-content-wrapper">
                         <div class="widget-content-left">
+                            <div class="btn-group mr-3">
+                                <a id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i data-count="0" class="far fa-bell"></i>
+                                    <sup class="badge badge-pill badge-danger active-notification" id="notification">
+                                        <span>{{ count(Auth::user()->notifications) }}</span>
+                                    </sup>
+                                </a>
+                                @if (count(Auth::user()->notifications) > 0)
+                                    <div class="dropdown-menu notification" aria-labelledby="notification" id="notificationsMenu">
+                                        @foreach (Auth::user()->notifications as $notification)
+                                            <a class="dropdown-item" href="{{ route('number-requests.edit', $notification->data['request_id']) }}">
+                                                <div class="media">
+                                                    <div class="media-left mr-2">
+                                                        <div class="media-object">
+                                                            <img src="{{ asset('assets/images/' . $notification->data['sender_avatar']) }}" width="42" height="42" class="rounded-circle" alt="{{ $notification->data['sender_name'] }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <strong class="notification-title">{{ $notification->data['sender_name'] }}</strong>
+                                                        <p class="notification">{{ $notification->data['message'] }}</p>
+                                                        <i><small class="timestamp">{{ setTimeShort($notification->created_at) }}</small></i>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <hr style="border: 1px solid #f7f8fa">
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <div class="dropdown-menu notification" aria-labelledby="notification">
+                                        <a class="dropdown-item" href="#">
+                                            <div class="media-body">
+                                                {{ __('Không có thông báo') }}
+                                            </div>
+                                        </a>
+                                    </div>
+                                @endif
+                            </div>
                             <div class="btn-group">
                                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
                                     @if (isset(Auth::user()->avatar))

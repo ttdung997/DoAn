@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegisterRequest;
 use App\Repositories\NumberRequest\NumberRequestRepositoryInterface;
 use App\User;
+use Auth;
 use App\Models\Token;
+use App\Notifications\SendRegisterCert;
 
 class NumberRequestController extends Controller
 {
@@ -91,7 +93,21 @@ class NumberRequestController extends Controller
      */
     public function update(RegisterRequest $request, $id)
     {
-        dd($request->all());
+        $update_request_cert = $this->numberRequest->update($id, $request->all());
+        $request_cert = $this->numberRequest->findById($id);
+        $receiver = User::where('id', $request_cert->user_id)->first();
+        try {
+            if ($request->status == 1) {
+                $message = 'Yêu cầu đã được xử lý';
+            } elseif ($request->status == 2) {
+                $message = 'Yêu cầu không được chấp nhận';
+            }
+            $receiver->notify(new SendRegisterCert(Auth::user(), $message, $id));
+
+            return redirect()->route('number-requests.index')->withSuccess('Đã xử lý thành công');
+        } catch (Exception $e) {
+            return redirect()->route('number-requests.index')->withError('Xử lý thất bại');
+        }
     }
 
     /**

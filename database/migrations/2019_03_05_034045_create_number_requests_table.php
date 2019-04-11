@@ -19,7 +19,7 @@ class CreateNumberRequestsTable extends Migration
             $table->string('end_entity_profile'); // End Entity Profile muon dung
             $table->string('username'); // ten nguoi dang ky
             $table->string('password'); // password cho ENd Entity
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('common_name')->nullable(); // CN:  ten co quan
             $table->string('organization')->nullable(); // O
             $table->string('country')->nullable(); // C

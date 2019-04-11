@@ -8,6 +8,16 @@
 @endsection
 
 @section('content')
+    @if(session()->has('success'))
+        <div class="alert alert-success">
+            {{ session()->get('success') }}
+        </div>
+    @endif
+    @if(session()->has('error'))
+        <div class="alert alert-danger">
+            {{ session()->get('error') }}
+        </div>
+    @endif
     <div class="app-page-title">
         <div class="page-title-wrapper">
             <div class="page-title-heading">
@@ -48,7 +58,7 @@
                             <td>{{ setStatus($numberRequest->status) }}</td>
                             <td class="text-center"><a href="{{ route('number-requests.edit', $numberRequest->id) }}"><i class="fas fa-eye mr-3"></i>Xem</a></td>
                         </tr>
-                    @endforeach                    
+                    @endforeach
                 </tbody>
             </table>
     </div>
@@ -61,6 +71,10 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#example').DataTable();
+
+            setTimeout(function() {
+                $('.alert').fadeOut('slow');
+            }, 3000);
         } );
     </script>
 @endsection
