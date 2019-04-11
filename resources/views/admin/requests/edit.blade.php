@@ -22,12 +22,13 @@
                         <a class="nav-link active mt-3" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Thông tin</a>
                     </li>
                 </ul>
+                {!! Form::hidden('user_id', $numberRequest->user_id) !!}
                 {!! Form::hidden('end_entity_profile', $numberRequest->end_entity_profile) !!}
                 <div class="row">
                     <div class="col-md-2 mt-5 pt-1 ml-5">
                         <span><strong>Tên người dùng</strong></span>
                     </div>
-                    <div class="col-md-6 mt-5">    
+                    <div class="col-md-6 mt-5">
                         <input type="text" class="form-control" name="username" value="{{ $numberRequest->username }}" disabled>
                     </div>
                     {!! Form::hidden('username', $numberRequest->username) !!}
@@ -37,7 +38,7 @@
                     <div class="col-md-2 mt-5 pt-1 ml-5">
                         <span><strong>Email</strong></span>
                     </div>
-                    <div class="col-md-6 mt-5">    
+                    <div class="col-md-6 mt-5">
                         <input type="email" class="form-control" name="email" value="{{ $numberRequest->email }}" disabled>
                         {!! Form::hidden('email', $numberRequest->email) !!}
                     </div>
@@ -49,7 +50,7 @@
                     <div class="col-md-6 mt-5">
                         @if ($numberRequest->status == 0)
                             <input type="text" class="form-control" name="common_name" value="{{ $numberRequest->common_name }}" required>
-                        @else 
+                        @else
                             <input type="text" class="form-control" name="common_name" value="{{ $numberRequest->common_name }}" disabled>
                         @endif
                     </div>
@@ -59,11 +60,11 @@
                         <span><strong>Cơ quan</strong></span>
                     </div>
                     <div class="col-md-6 mt-5">
-                        @if ($numberRequest->status == 0)    
+                        @if ($numberRequest->status == 0)
                             <input type="text" class="form-control" name="organization" value="{{ $numberRequest->organization }}" required>
-                        @else 
+                        @else
                             <input type="text" class="form-control" name="organization" value="{{ $numberRequest->organization }}" disabled>
-                        @endif    
+                        @endif
                     </div>
                 </div>
                 <div class="row">
@@ -73,7 +74,7 @@
                     <div class="col-md-6 mt-5">
                         @if ($numberRequest->status == 0)
                             <input type="text" class="form-control" name="country" value="{{ $numberRequest->country }}" required>
-                        @else 
+                        @else
                             <input type="text" class="form-control" name="country" value="{{ $numberRequest->country }}" disabled>
                         @endif
                     </div>
@@ -85,7 +86,7 @@
                     <div class="col-md-6 mt-5">
                         @if ($numberRequest->status == 0)
                             <input type="text" class="form-control" name="locality" value="{{ $numberRequest->locality }}" required>
-                        @else 
+                        @else
                             <input type="text" class="form-control" name="locality" value="{{ $numberRequest->locality }}" disabled>
                         @endif
                     </div>
@@ -95,22 +96,22 @@
                         <span><strong>Tỉnh/TP</strong></span>
                     </div>
                     <div class="col-md-6 mt-5">
-                        @if ($numberRequest->status == 0)   
+                        @if ($numberRequest->status == 0)
                             <input type="text" class="form-control" name="province" value="{{ !empty($numberRequest->province) ? $numberRequest->province : '' }}" required>
-                        @else 
+                        @else
                             <input type="text" class="form-control" name="province" value="{{ !empty($numberRequest->province) ? $numberRequest->province : '' }}" disabled>
                         @endif
                     </div>
                 </div>
-                {!! Form::hidden('password', $numberRequest->certificate_profile) !!}
+                {!! Form::hidden('certificate_profile', $numberRequest->certificate_profile) !!}
                 <div class="row">
                     <div class="col-md-2 mt-5 pt-1 ml-5">
                         <span><strong>CA</strong></span>
                     </div>
                     <div class="col-md-6 mt-5">
-                        @if ($numberRequest->status == 0)   
+                        @if ($numberRequest->status == 0)
                             <input type="text" class="form-control" name="CA" value="{{ $numberRequest->CA }}" required>
-                        @else 
+                        @else
                             <input type="text" class="form-control" name="CA" value="{{ $numberRequest->CA }}" disabled>
                         @endif
                     </div>
@@ -122,7 +123,7 @@
                     <div class="col-md-6 mt-5">
                         @if ($numberRequest->status == 0)
                         {!! Form::select('token_id', $tokens->pluck('name', 'id'), $numberRequest->token_id, ['class' => 'custom-select']) !!}
-                        @else 
+                        @else
                             <input type="text" class="form-control" name="token_id" value="{{ $numberRequest->token->name }}" disabled>
                         @endif
                     </div>
@@ -131,7 +132,7 @@
                     <div class="col-md-2 mt-5 pt-1 ml-5">
                         <span><strong>Ngày hẹn trả</strong></span>
                     </div>
-                    <div class="col-md-6 mt-5">    
+                    <div class="col-md-6 mt-5">
                         <input type="text" class="form-control" name="days_to_return" value="{{ date('d-m-Y', strtotime($numberRequest->days_to_return)) }}" disabled>
                         {!! Form::hidden('days_to_return', $numberRequest->days_to_return) !!}
                     </div>
@@ -146,7 +147,7 @@
                                 <span class="mr-5">
                                     <input type="radio" id="customRadioInline1" name="status" class="custom-control-input" {{ $numberRequest->status == 0 ? 'checked' : '' }} value="0">
                                     <label class="custom-control-label" for="customRadioInline1">Đang chờ</label>
-                                    
+
                                 </span>
                                 <span class="mr-5">
                                     <input type="radio" id="customRadioInline2" name="status" class="custom-control-input" {{ $numberRequest->status == 1 ? 'checked' : '' }} value="1">
@@ -172,6 +173,6 @@
                 </div>
             {!! Form::close() !!}
             </div>
-        </div>       
+        </div>
     </div>
 @endsection

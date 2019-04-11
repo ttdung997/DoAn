@@ -4,18 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
 class Certificate extends Model
 {
-	use SoftDeletes;
+    use SoftDeletes;
 
     protected $fillable = [
-    	'serial_number',
-    	'user_id'
+        'serial_number',
+        'user_id'
     ];
 
     public function user()
     {
-    	return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 }

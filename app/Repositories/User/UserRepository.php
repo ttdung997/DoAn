@@ -52,4 +52,9 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             }
         }
     }
+
+    public function getAllAdmin()
+    {
+        return \App\User::select('id', 'name')->where('role_id', 1)->get();
+    }
 }
