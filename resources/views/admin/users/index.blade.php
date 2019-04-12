@@ -9,18 +9,14 @@
 
 @section('content')
     <div class="app-page-title">
-        @if (Session::has('success'))
-            <div class="alert alert-success" role="alert">
-                <strong>{{ Session::get('success') }}</strong>
-            </div>
-        @endif
+        @include('layouts.notify')
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
                     <i class="fas fa-users icon-gradient bg-mean-fruit">
                     </i>
                 </div>
-                <div>Manage Users</div>
+                <div>Quản lý người dùng</div>
 
             </div>
             <div class="page-title-actions">

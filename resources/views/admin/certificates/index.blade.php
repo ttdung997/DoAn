@@ -15,7 +15,7 @@
                     <i class="fas fa-certificate icon-gradient bg-mean-fruit">
                     </i>
                 </div>
-                <div>Manage Certificates</div>
+                <div>Quản lý chứng thư</div>
             </div>
             <div class="page-title-actions">
                 <div class="btn-shadow mr-3 btn btn-dark">

@@ -8,16 +8,7 @@
 @endsection
 
 @section('content')
-    @if(session()->has('success'))
-        <div class="alert alert-success">
-            {{ session()->get('success') }}
-        </div>
-    @endif
-    @if(session()->has('error'))
-        <div class="alert alert-danger">
-            {{ session()->get('error') }}
-        </div>
-    @endif
+    @include('layouts.notify')
     <div class="app-page-title">
         <div class="page-title-wrapper">
             <div class="page-title-heading">
@@ -25,7 +16,7 @@
                     <i class="fas fa-clipboard-list icon-gradient bg-mean-fruit">
                     </i>
                 </div>
-                <div>Manage Requests</div>
+                <div>Quản lý yêu cầu</div>
             </div>
             <div class="page-title-actions">
                 <div class="btn-shadow mr-3 btn btn-dark">
@@ -71,10 +62,6 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#example').DataTable();
-
-            setTimeout(function() {
-                $('.alert').fadeOut('slow');
-            }, 3000);
         } );
     </script>
 @endsection

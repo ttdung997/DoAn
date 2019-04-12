@@ -41,54 +41,44 @@
                 <li>
                     <a href="#">
                         <i class="metismenu-icon fas fa-users-cog"></i>
-                        Manage Users
+                        Quản lý người dùng
                         <i class="metismenu-state-icon fas fa-angle-down caret-left"></i>
                     </a>
                     <ul>
                         <li>
                             <a href="{{ route('users.index') }}">
-                                <i class="metismenu-icon"></i>List Users
+                                <i class="metismenu-icon"></i>Danh sách người dùng
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('users.create') }}">
-                                <i class="metismenu-icon"></i>Create User
+                                <i class="metismenu-icon"></i>Tạo người dùng
                             </a>
                         </li>
                     </ul>
                 </li>
 				<li>
-                    <a href="#">
-                        <i class="metismenu-icon fas fa-certificate"></i>Manage Certificates
+                    <a href="{{ route('certificates.index') }}">
+                        <i class="metismenu-icon fas fa-certificate"></i>Quản lý chứng thư
                         <i class="metismenu-state-icon fas fa-angle-down caret-left"></i>
                     </a>
                     <ul>
                         <li>
                             <a href="{{ route('certificates.index') }}">
-                                <i class="metismenu-icon"></i>List Certificates
-                            </a>
-                        </li>
-                        <li>
-                            <a href="elements-dropdowns.html">
-                                <i class="metismenu-icon"></i>Create Certificate
+                                <i class="metismenu-icon"></i>Danh sách chứng thư
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#">
-                        <i class="metismenu-icon fas fa-clipboard-list"></i>Manage Requests
+                    <a href="{{ route('number-requests.index') }}">
+                        <i class="metismenu-icon fas fa-clipboard-list"></i>Quản lý yêu cầu
                         <i class="metismenu-state-icon fas fa-angle-down caret-left"></i>
                     </a>
                     <ul>
                         <li>
                             <a href="{{ route('number-requests.index') }}">
-                                <i class="metismenu-icon"></i>List Requests
-                            </a>
-                        </li>
-                        <li>
-                            <a href="elements-dropdowns.html">
-                                <i class="metismenu-icon"></i>Create Request
+                                <i class="metismenu-icon"></i>Danh sách yêu cầu
                             </a>
                         </li>
                     </ul>
