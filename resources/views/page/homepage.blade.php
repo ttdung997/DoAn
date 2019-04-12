@@ -3,16 +3,7 @@
 @section('title', 'Trang chủ')
 
 @section('content')
-    @if(session()->has('success'))
-        <div class="alert alert-success">
-            {{ session()->get('success') }}
-        </div>
-    @endif
-    @if(session()->has('error'))
-        <div class="alert alert-danger">
-            {{ session()->get('error') }}
-        </div>
-    @endif
+    @include('layouts.notify')
     <div class="container emp-profile">
         <div class="row">
             <div class="col-md-9 mt-4">

@@ -6,4 +6,6 @@
 <script type="text/javascript" src="{{ asset('bower_components/Font-Awesome/js/regular.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bower_components/pusher-js/dist/web/pusher.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/main.js') }}"></script>
-<script type="text/javascript" src="{{ asset('bower_components/pusher-js/dist/web/pusher.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bower_components/toastr/toastr.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/notify.js') }}"></script>
+{{--  <script type="text/javascript" src="{{ asset('bower_components/pusher-js/dist/web/pusher.min.js') }}"></script>  --}}

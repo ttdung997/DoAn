@@ -13,5 +13,6 @@
 <link href="{{ asset('bower_components/bootstrap4/dist/css/bootstrap.min.css') }}" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{ asset('bower_components/Font-Awesome/css/solid.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('bower_components/Font-Awesome/css/regular.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('bower_components/toastr/toastr.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/styles.css') }}">
 @yield('stylesheets')
