@@ -7,16 +7,34 @@ use App\Http\Requests\RegisterRequest;
 use App\Repositories\NumberRequest\NumberRequestRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Notifications\SendRegisterCert;
+use App\Repositories\Certificate\CertificateRepositoryInterface;
 use Auth;
 
 class RegisterRequestController extends Controller
 {
-    protected $requestCert;
+    protected $requestCert, $user, $cert;
 
-    public function __construct(NumberRequestRepositoryInterface $requestCert, UserRepositoryInterface $user)
+    public function __construct(NumberRequestRepositoryInterface $requestCert, UserRepositoryInterface $user, CertificateRepositoryInterface $cert)
     {
         $this->requestCert = $requestCert;
         $this->user = $user;
+        $this->cert = $cert;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $with = ['user'];
+        $data = [
+            'user_id' => Auth::id(),
+        ];
+        $certificates = $this->cert->getData($with, $data);
+
+        return view('page.list-certs', compact('certificates'));
     }
 
     /**
@@ -26,7 +44,7 @@ class RegisterRequestController extends Controller
      */
     public function create()
     {
-        return view('page.homepage');
+        return view('page.register-cert');
     }
 
     /**
@@ -38,7 +56,7 @@ class RegisterRequestController extends Controller
     public function store(RegisterRequest $request)
     {
         $data = $request->except(['message']);
-        $data['password'] = bcrypt($request->password);
+        $data['password'] = encrypt($request->password);
         $request_cert = $this->requestCert->create($data);
         $receivers = $this->user->getAllAdmin();
 
@@ -61,7 +79,7 @@ class RegisterRequestController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**

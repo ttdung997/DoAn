@@ -26,41 +26,56 @@
     </div>
     <div class="container-fluid">
         <table id="example" class="table table-striped table-bordered" style="width:100%">
-                <thead>
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>SubjectDN</th>
+                    <th>Serial Number</th>
+                    <th>Thời hạn hiệu lực</th>
+                    <th>UID</th>
+                    <th>Ngày tạo</th>
+                    <th>Status</th>
+                    <th>Xem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($certificates as $key => $certificate)
+                    @php
+                        $subjectDN = '';
+                        foreach (openssl_x509_parse($certificate->certificate['cert'])['subject'] as $k => $value) {
+                            if ($k == 'emailAddress') {
+                                $subjectDN .= $k . '=' . $value;
+                            } else {
+                                $subjectDN .= $k . '=' . $value . ', ';
+                            }
+                        }
+                    @endphp
                     <tr>
-                        <th>STT</th>
-                        <th>Serial Number</th>
-                        <th>Thời hạn</th>
-                        <th>Chủ sở hữu</th>
-                        <th>Ngày tạo</th>
-                        <th>Revoke</th>
-                        <th>Xem</th>
+                        <td>{{ $key + 1 }}</td>
+                        <td>{{ $subjectDN }}</td>
+                        <td>{{ openssl_x509_parse($certificate->certificate['cert'])['serialNumber'] }}</td>
+                        <td>{!! 'từ <strong>' . date('d-m-Y', openssl_x509_parse($certificate->certificate['cert'])['validFrom_time_t']) .
+                            '</strong> đến <strong>' . date('d-m-Y', openssl_x509_parse($certificate->certificate['cert'])['validTo_time_t']) . '</strong>'
+                            !!}</td>
+                        <td>{{ $certificate->user_id }}</td>
+                        <td>{{ date('d-m-Y', strtotime($certificate->created_at)) }}</td>
+                        <td>{{ setActive($certificate->status) }}</td>
+                        <td><a href="#"><i class="far fa-eye"></i>Xem</a></td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach ($certificates as $key => $certificate)
-                        <tr>
-                            <td>{{ $key + 1 }}</td>
-                            <td>{{ $certificate->serial_number }}</td>
-                            <td>{{ $certificate->expires }}</td>
-                            <td>{{ $certificate->user_id }}</td>
-                            <td>{{ $certificate->created_at }}</td>
-                            <td><a href="#">Revoke</a></td>
-                            <td><a href="#"><i class="far fa-eye"></i>Xem</a></td>
-                        </tr>                    
-                    @endforeach
-                </tbody>
-            </table>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 @endsection
 @section('scripts')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#example').DataTable({
+                responsive: true
+            });
+        } );
+    </script>
     {{ Html::script('assets/js/dataTables/jquery.dataTables.min.js') }}
     {{ Html::script('assets/js/dataTables/dataTables.responsive.min.js') }}
     {{ Html::script('assets/js/dataTables/dataTables.bootstrap4.min.js') }}
-    {{ Html::script('assets/js/dataTables/responsive.bootstrap4.min.js') }}
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#example').DataTable();
-        } );
-    </script>
 @endsection

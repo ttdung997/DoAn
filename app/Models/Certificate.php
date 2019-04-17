@@ -8,13 +8,14 @@ class Certificate extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = [
-        'serial_number',
-        'user_id'
+    protected $guarded = ['id'];
+
+    protected $casts = [
+        'certificate' => 'array',
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(\App\User::class);
     }
 }

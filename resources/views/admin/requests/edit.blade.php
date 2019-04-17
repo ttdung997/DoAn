@@ -23,7 +23,6 @@
                     </li>
                 </ul>
                 {!! Form::hidden('user_id', $numberRequest->user_id) !!}
-                {!! Form::hidden('end_entity_profile', $numberRequest->end_entity_profile) !!}
                 <div class="row">
                     <div class="col-md-2 mt-5 pt-1 ml-5">
                         <span><strong>Tên người dùng</strong></span>
@@ -101,40 +100,6 @@
                         @else
                             <input type="text" class="form-control" name="province" value="{{ !empty($numberRequest->province) ? $numberRequest->province : '' }}" disabled>
                         @endif
-                    </div>
-                </div>
-                {!! Form::hidden('certificate_profile', $numberRequest->certificate_profile) !!}
-                <div class="row">
-                    <div class="col-md-2 mt-5 pt-1 ml-5">
-                        <span><strong>CA</strong></span>
-                    </div>
-                    <div class="col-md-6 mt-5">
-                        @if ($numberRequest->status == 0)
-                            <input type="text" class="form-control" name="CA" value="{{ $numberRequest->CA }}" required>
-                        @else
-                            <input type="text" class="form-control" name="CA" value="{{ $numberRequest->CA }}" disabled>
-                        @endif
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 mt-5 pt-1 ml-5">
-                        <span><strong>Token</strong></span>
-                    </div>
-                    <div class="col-md-6 mt-5">
-                        @if ($numberRequest->status == 0)
-                        {!! Form::select('token_id', $tokens->pluck('name', 'id'), $numberRequest->token_id, ['class' => 'custom-select']) !!}
-                        @else
-                            <input type="text" class="form-control" name="token_id" value="{{ $numberRequest->token->name }}" disabled>
-                        @endif
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 mt-5 pt-1 ml-5">
-                        <span><strong>Ngày hẹn trả</strong></span>
-                    </div>
-                    <div class="col-md-6 mt-5">
-                        <input type="text" class="form-control" name="days_to_return" value="{{ date('d-m-Y', strtotime($numberRequest->days_to_return)) }}" disabled>
-                        {!! Form::hidden('days_to_return', $numberRequest->days_to_return) !!}
                     </div>
                 </div>
                 @if ($numberRequest->status == 0)

@@ -3,15 +3,21 @@ $(document).ready(function() {
     if ($('div').hasClass('success')) {
         toastr.success(
             $message,
-            'Thành công!',
-            {timeOut: 3000}
+            '',
+            {
+                positionClass: 'toast-bottom-right',
+                timeOut: 5000
+            }
         )
     }
     if ($('div').hasClass('error')) {
         toastr.success(
             $message,
-            'Lỗi!',
-            {timeOut: 3000}
+            '',
+            {
+                positionClass: 'toast-bottom-right',
+                timeOut: 5000
+            }
         )
     }
 })

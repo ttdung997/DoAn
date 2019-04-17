@@ -1,15 +1,15 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-info">
-    <a class="navbar-brand text-light" href="{{ url('/') }}"><i class="fas fa-home"></i></a>
+    <a class="navbar-brand text-light" href="{{ url('/') }}"><i class="fas fa-home"></i> Trang chủ</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#demo-navbar" aria-controls="demo-navbar" aria-expanded="false" aria-label="Toggle navigation">
 <span class="navbar-toggler-icon"></span>
 </button>
     <div class="collapse navbar-collapse" id="demo-navbar">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link text-light" href="{{ url('/') }}">Trang chủ <span class="sr-only">(current)</span></a>
+                <a class="nav-link text-light" href="{{ route('register-request.create') }}" title="Đăng ký chứng thư"><i class="far fa-registered"></i> Đăng ký<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-light" href="#">About</a>
+                <a class="nav-link text-light" href="{{ route('register-request.index') }}" title="Chứng thư"><i class="fas fa-torah"></i> Chứng thư</a>
             </li>
         </ul>
         <ul class="navbar-nav mr-5 pr-3">
