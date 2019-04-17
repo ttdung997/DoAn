@@ -29,8 +29,6 @@ class RegisterRequest extends FormRequest
             'country' => '',
             'locality' => '',
             'province' => '',
-            'CA' => '',
-            'token_id' => 'integer',
             'status' => 'integer',
         ];
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
 use App\Repositories\NumberRequest\NumberRequestRepositoryInterface;
+use App\Repositories\Certificate\CertificateRepositoryInterface;
 use App\User;
 use Auth;
 use App\Models\Token;
@@ -11,11 +12,12 @@ use App\Notifications\SendRegisterCert;
 
 class NumberRequestController extends Controller
 {
-    protected $numberRequest;
+    protected $numberRequest, $cert;
 
-    public function __construct(NumberRequestRepositoryInterface $numberRequest)
+    public function __construct(NumberRequestRepositoryInterface $numberRequest, CertificateRepositoryInterface $cert)
     {
         $this->numberRequest = $numberRequest;
+        $this->cert = $cert;
     }
     /**
      * Display a listing of the resource.
@@ -28,7 +30,6 @@ class NumberRequestController extends Controller
         $dataSelect = [
             'id',
             'user_id',
-            'days_to_return',
             'status',
             'created_at',
             'updated_at',
@@ -78,10 +79,9 @@ class NumberRequestController extends Controller
      */
     public function edit($id)
     {
-        $tokens = Token::all();
         $numberRequest = $this->numberRequest->findById($id);
 
-        return view('admin.requests.edit', compact('numberRequest', 'tokens'));
+        return view('admin.requests.edit', compact('numberRequest'));
     }
 
     /**
@@ -93,8 +93,49 @@ class NumberRequestController extends Controller
      */
     public function update(RegisterRequest $request, $id)
     {
-        $update_request_cert = $this->numberRequest->update($id, $request->all());
+        $this->numberRequest->update($id, $request->all());
         $request_cert = $this->numberRequest->findById($id);
+
+        $dn = [
+            'countryName' => splitCountry($request->country),
+            'stateOrProvinceName' => $request->province,
+            'localityName' => $request->locality,
+            'organizationName' => $request->organization,
+            'commonName' => $request->common_name,
+            'emailAddress' => $request->email,
+        ];
+        // Generate a new private (and public) key pair
+        $privkey = openssl_pkey_new([
+            'private_key_bits' => 4096,
+            'private_key_type' => OPENSSL_KEYTYPE_RSA,
+            'encrypt_key'      => true,
+        ]);
+        // Generate a certificate signing request
+        $csr = openssl_csr_new($dn, $privkey, array('digest_alg' => 'sha256', 'x509_extensions' => 'v3_ca'));
+
+        // Generate a self-signed cert, valid for 365 days
+        $x509 = openssl_csr_sign($csr, null, $privkey, $days = 730, array('digest_alg' => 'sha256'), serialNumber());
+        // Save your private key, CSR and self-signed cert for later use
+        // openssl_csr_export($csr, $csrout);
+        // openssl_x509_export($x509, $certX509);
+        // openssl_x509_export_to_file($x509, 'cert.crt');
+        // openssl_pkey_export($privkey, $pkeyout, $request->password);
+
+        // save both private key and cert in a file
+        $args = array(
+            'friendly_name' => 'CA certificate'
+        );
+        openssl_pkcs12_export($x509, $certout, $privkey, decrypt($request->password), $args);
+        openssl_pkcs12_read($certout, $cert, decrypt($request->password));
+
+        $data = [
+            'certificate' => $cert,
+            'user_id' => $request->user_id,
+            'status' => 0
+        ];
+        $certificate = $this->cert->create($data);
+        openssl_pkcs12_export_to_file($x509, public_path('/p12/cert'.$certificate->id.'.p12'), $privkey, decrypt($request->password), $args);
+
         $receiver = User::where('id', $request_cert->user_id)->first();
         try {
             if ($request->status == 1) {

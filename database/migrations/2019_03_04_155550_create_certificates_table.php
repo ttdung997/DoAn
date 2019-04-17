@@ -15,8 +15,9 @@ class CreateCertificatesTable extends Migration
     {
         Schema::create('certificates', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('serial_number')->unique();
+            $table->longText('certificate');
             $table->unsignedBigInteger('user_id');
+            $table->integer('status');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-        @include('layouts._script-main')
+        @include('layouts._script')
         <!-- add scripts -->
         @yield('scripts')
     </body>

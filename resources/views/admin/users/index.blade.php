@@ -28,86 +28,83 @@
     </div>
     <div class="container-fluid">
         <table id="example" class="table table-striped table-bordered" style="width:100%">
-                <thead>
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên</th>
+                    <th>Ngày sinh</th>
+                    <th>Số CMND</th>
+                    <th>Địa chỉ</th>
+                    <th>Chức vụ</th>
+                    <th>Bệnh viện</th>
+                    <th>Email</th>
+                    <th>Vai trò</th>
+                    <th>Xem</th>
+                    <th>Sửa</th>
+                    <th>Xóa</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($users as $key => $user)
                     <tr>
-                        <th>STT</th>
-                        <th>Tên</th>
-                        <th>Ngày sinh</th>
-                        <th>Số CMND</th>
-                        <th>Địa chỉ</th>
-                        <th>Chức vụ</th>
-                        <th>Bệnh viện</th>
-                        <th>Email</th>
-                        <th>Vai trò</th>
-                        <th>Xem</th>
-                        <th>Sửa</th>
-                        <th>Xóa</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($users as $key => $user)
-                        <tr>
-                            <td>{{ $key + 1 }}</td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ date('d-m-Y', strtotime($user->birthday)) }}</td>
-                            <td>{{ $user->id_number }}</td>
-                            <td>{{ $user->id_address }}</td>
-                            <td>{{ $user->job }}</td>
-                            <td>{{ $user->company }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->role->name }}</td>
-                            <td><a href="{{ route('users.show', $user->id) }}">
-                                <i class="fas fa-eye"></i>
-                            </a></td>
-                            <td><a href="{{ route('users.edit', $user->id) }}">
-                                <i class="fas fa-pen"></i>
-                            </a></td>
-                            <td>
-                                <a class="delete" data-toggle="modal" href="#delete-{{$user->id}}">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                                <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
-                                    <div class="modal fade" id="delete-{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                    <h4 class="modal-title">{{ __('translate.del_confirm') }}</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <h5>{{ __('translate.del_alert') }}</h5>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    {!! Form::open(['route' => ['users.destroy', $user->id], 'method' => 'DELETE']) !!}
-                                                    <button type="submit" class="btn btn-danger mb-1">{{ __('translate.delete') }}</button>
-                                                    {!! Form::close() !!}
-                                                    <button type="button" class="btn btn-light" data-dismiss="modal" >{{ __('translate.close') }}</button>
-                                                </div>
+                        <td>{{ $key + 1 }}</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ date('d-m-Y', strtotime($user->birthday)) }}</td>
+                        <td>{{ $user->id_number }}</td>
+                        <td>{{ $user->id_address }}</td>
+                        <td>{{ $user->job }}</td>
+                        <td>{{ $user->company }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->role->name }}</td>
+                        <td><a href="{{ route('users.show', $user->id) }}">
+                            <i class="fas fa-eye"></i>
+                        </a></td>
+                        <td><a href="{{ route('users.edit', $user->id) }}">
+                            <i class="fas fa-pen"></i>
+                        </a></td>
+                        <td>
+                            <a class="delete" data-toggle="modal" href="#delete-{{$user->id}}">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                            <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+                                <div class="modal fade" id="delete-{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h4 class="modal-title">{{ __('translate.del_confirm') }}</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h5>{{ __('translate.del_alert') }}</h5>
+                                            </div>
+                                            <div class="modal-footer">
+                                                {!! Form::open(['route' => ['users.destroy', $user->id], 'method' => 'DELETE']) !!}
+                                                <button type="submit" class="btn btn-danger mb-1">{{ __('translate.delete') }}</button>
+                                                {!! Form::close() !!}
+                                                <button type="button" class="btn btn-light" data-dismiss="modal" >{{ __('translate.close') }}</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                                </div>
+                                <!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 @endsection
 @section('scripts')
     {{ Html::script('assets/js/dataTables/jquery.dataTables.min.js') }}
     {{ Html::script('assets/js/dataTables/dataTables.responsive.min.js') }}
     {{ Html::script('assets/js/dataTables/dataTables.bootstrap4.min.js') }}
-    {{ Html::script('assets/js/dataTables/responsive.bootstrap4.min.js') }}
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#example').DataTable();
-
-            setTimeout(function() {
-                $('.alert').fadeOut('slow');
-            }, 3000);
+            $('#example').DataTable({
+                responsive: true
+            });
         });
     </script>
 @endsection

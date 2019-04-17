@@ -16,8 +16,8 @@ class NumberRequest extends Model
         return $this->belongsTo(\App\User::class);
     }
 
-    public function token()
-    {
-        return $this->belongsTo(Token::class);
-    }
+    // public function token()
+    // {
+    //     return $this->belongsTo(Token::class);
+    // }
 }

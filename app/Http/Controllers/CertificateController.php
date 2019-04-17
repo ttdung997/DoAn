@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Certificate;
 use App\Repositories\Certificate\CertificateRepositoryInterface;
+use Auth;
+use App\User;
 
 class CertificateController extends Controller
 {

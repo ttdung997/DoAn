@@ -3,115 +3,123 @@
 @section('title', 'Trang chủ')
 
 @section('content')
-    @include('layouts.notify')
     <div class="container emp-profile">
-        <div class="row">
-            <div class="col-md-9 mt-4">
-                <div class="profile-img">
-                    <h1 class="text-center">Tạo yêu cầu</h1>
+        <form method="post">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="profile-img">
+                        <img class="avatar" src="{{ asset('assets/images/' . $user->avatar) }}">
+                    </div>
+                </div>
+                <div class="col-md-6 mt-4">
+                    <div class="profile-head">
+                        <h5>
+                            {{ $user->name }}
+                        </h5>
+                        <h6>
+                            {{ $user->job }}
+                        </h6>
+                        <ul class="nav nav-tabs mt-5" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active mt-3" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Thông tin</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <a class="btn btn-primary" href="{{ route('register-request.index') }}">Chứng thư</a>
                 </div>
             </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-md-10">
-            {!! Form::open(['method' => 'POST', 'route' => 'register-request.store']) !!}
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active mt-3" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Thông tin</a>
-                    </li>
-                </ul>
-                {!! Form::hidden('message', 'yêu cầu cấp chứng thư') !!}
-                {!! Form::hidden('user_id', Auth::id()) !!}
-                {!! Form::hidden('end_entity_profile', 'EntityProfilesEndUser') !!}
-                <div class="row">
-                    <div class="col-md-2 mt-5 pt-1 ml-5">
-                        <span><strong>Tên người dùng</strong></span>
-                    </div>
-                    <div class="col-md-6 mt-5">
-                        <input type="text" class="form-control" name="username" placeholder="Nhập tên bạn" required>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="profile-work mt-4 mb-5">
+                        <span class="email"><strong>Email</strong></span><br>
+                        <p>{{ $user->email }}</p>
+                        <span class="role"><strong>Vai trò</strong></span><br>
+                        <p>{{ $user->role->name }}</p>
+                        <span class="role"><strong>Nơi công tác</strong></span><br>
+                        <p>{{ 'Bv. ' . $user->company }}</p>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-2 mt-5 pt-1 ml-5">
-                        <span><strong>Mật khẩu</strong></span>
-                    </div>
-                    <div class="col-md-6 mt-5">
-                        <input type="text" class="form-control" name="password" placeholder="Nhập mật khẩu cho yêu cầu này" required>
+                <div class="col-md-8 mt-4">
+                    <div class="tab-content profile-tab" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label><strong>Mã nhân viên</strong></label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>MSBS00{{ $user->id }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label><strong>Họ tên</strong></label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ $user->name }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label><strong>Giới tính</strong></label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ $user->gender == 'male' ? 'Nam' : 'Nữ' }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label><strong>Ngày sinh</strong></label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ date('d-m-Y', strtotime($user->birthday)) }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label><strong>Địa chỉ thường trú</strong></label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ $user->permanent_residence }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label><strong>Địa chỉ tạm trú</strong></label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ $user->staying_address }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label><strong>Số CMND</strong></label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ $user->id_number }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label><strong>Ngày cấp</strong></label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ date('d-m-Y', strtotime($user->id_date)) }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label><strong>Nơi cấp</strong></label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ $user->id_address }}</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-2 mt-5 pt-1 ml-5">
-                        <span><strong>Email</strong></span>
-                    </div>
-                    <div class="col-md-6 mt-5">
-                        <input type="email" class="form-control" name="email" placeholder="Nhập email" required>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 mt-5 pt-1 ml-5">
-                        <span><strong>Tên gọi chung</strong></span>
-                    </div>
-                    <div class="col-md-6 mt-5">
-                        <input type="text" class="form-control" name="common_name" placeholder="Nhập tên">
-                    </div>
-                    <div class="col-md-3 mt-5 pt-2">
-                        <i>(Không bắt buộc)</i>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 mt-5 pt-1 ml-5">
-                        <span><strong>Cơ quan</strong></span>
-                    </div>
-                    <div class="col-md-6 mt-5">
-                        <input type="text" class="form-control" name="organization" placeholder="Nhập tên cơ quan" required>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 mt-5 pt-1 ml-5">
-                        <span><strong>Quốc gia</strong></span>
-                    </div>
-                    <div class="col-md-6 mt-5">
-                        <input type="text" class="form-control" name="country" placeholder="Nhập tên quốc gia" required>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 mt-5 pt-1 ml-5">
-                        <span><strong>Quận/Huyện</strong></span>
-                    </div>
-                    <div class="col-md-6 mt-5">
-                        <input type="text" class="form-control" name="locality" placeholder="Nhập tên quân/huyện" required>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 mt-5 pt-1 ml-5">
-                        <span><strong>Tỉnh/TP</strong></span>
-                    </div>
-                    <div class="col-md-6 mt-5">
-                        <input type="text" class="form-control" name="province" placeholder="Nhập tên tỉnh/tp" required>
-                    </div>
-                </div>
-                {!! Form::hidden('certificate_profile', 'CertificateProfileEndUser') !!}
-                {!! Form::hidden('CA', 'CAHust') !!}
-                {!! Form::hidden('token_id', '2') !!}
-                <div class="row">
-                    <div class="col-md-2 mt-5 pt-1 ml-5">
-                        <span><strong>Ngày hẹn trả</strong></span>
-                    </div>
-                    <div class="col-md-6 mt-5">
-                        <input type="date" class="form-control" name="days_to_return" required>
-                    </div>
-                </div>
-                {!! Form::hidden('status', '0') !!}
-                <div class="row">
-                    <div class="col-md-10 mt-5 pt-1 ml-5">
-                            <input type="submit" value="Gửi yêu cầu" class="btn btn-success mr-5">
-                        <a href="{{ route('home') }}" class="btn btn-secondary">
-                            Hủy
-                        </a>
-                    </div>
-                </div>
-            {!! Form::close() !!}
             </div>
-        </div>
+        </form>
     </div>
 @endsection
