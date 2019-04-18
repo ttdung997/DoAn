@@ -1,4 +1,4 @@
-@extends('main')
+@extends('master')
 
 @section('title', 'Thông tin chứng thư')
 
@@ -21,7 +21,6 @@
                 </ul>
                 {{-- {!! Form::hidden('message', 'Yêu cầu cấp chứng thư') !!} --}}
                 {!! Form::hidden('user_id', Auth::id()) !!}
-                {{-- @dd(openssl_x509_parse($certificate->certificate['cert'])) --}}
                 <div class="row">
                     <h5 class="mt-5 ml-4 pl-2">Subject Name</h5>
                 </div>
@@ -116,7 +115,7 @@
                         <input type="reset" value="Reset" class="btn btn-secondary mr-5">
                     </div>
                 </div>
-            {!! Form::close() !!}
+            {{-- {!! Form::close() !!} --}}
             </div>
         </div>
     </div>

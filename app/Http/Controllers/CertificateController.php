@@ -57,7 +57,9 @@ class CertificateController extends Controller
      */
     public function show($id)
     {
-        //
+        $certificate = $this->certificate->findById($id);
+
+        return view('admin.certificates.show', compact('certificate'));
     }
 
     /**

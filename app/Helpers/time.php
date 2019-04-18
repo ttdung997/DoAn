@@ -1,32 +1,5 @@
 <?php
 
-function setStatus($value)
-{
-    switch ($value) {
-        case 0:
-            echo "<span class='badge badge-pill badge-warning'>Đang chờ</span>";
-            break;
-        case 1:
-            echo "<span class='badge badge-pill badge-success'>Đã xử lý</span>";
-            break;
-        default:
-            return "<span class='badge badge-pill badge-danger'>Hủy bỏ</span>";
-            break;
-    }
-}
-
-function setActive($value)
-{
-    switch ($value) {
-        case 0:
-            echo "<span class='badge badge-pill badge-success'>Active</span>";
-            break;
-        default:
-            return "<span class='badge badge-pill badge-danger'>Thu hồi</span>";
-            break;
-    }
-}
-
 function setTimeDefault($value)
 {
     if ($value) {
@@ -62,20 +35,4 @@ function setTimeShort($value)
     } else {
         return __('không xác định');
     }
-}
-
-function splitCountry($value)
-{
-    $address = explode(' ', $value);
-    $country = '';
-    foreach ($address as $add) {
-        $country .= $add[0];
-    }
-
-    return $country;
-}
-
-function serialNumber()
-{
-    return mt_rand(100000000000000000, 999999999999999999);
 }

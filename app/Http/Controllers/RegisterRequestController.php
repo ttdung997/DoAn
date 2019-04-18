@@ -79,7 +79,9 @@ class RegisterRequestController extends Controller
      */
     public function show($id)
     {
-        
+        $certificate = $this->cert->findById($id);
+
+        return view('page.show-cert', compact('certificate'));
     }
 
     /**
