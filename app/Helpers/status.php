@@ -9,6 +9,9 @@ function setStatus($value)
         case 1:
             echo "<span class='badge badge-pill badge-success'>Đã xử lý</span>";
             break;
+        case 2:
+            echo "<span class='badge badge-pill badge-warning'>Yêu cầu thu hồi</span>";
+            break;
         default:
             return "<span class='badge badge-pill badge-danger'>Hủy bỏ</span>";
             break;
@@ -21,8 +24,11 @@ function setActive($value)
         case 0:
             echo "<span class='badge badge-pill badge-success'>Active</span>";
             break;
+        case 1:
+            echo "<span class='badge badge-pill badge-danger'>Thu hồi</span>";
+            break;
         default:
-            return "<span class='badge badge-pill badge-danger'>Thu hồi</span>";
+            return "<span class='badge badge-pill badge-warning'>Pending</span>";
             break;
     }
 }

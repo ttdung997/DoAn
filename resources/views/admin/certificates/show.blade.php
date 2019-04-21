@@ -10,6 +10,9 @@
                     <h1 class="text-center">Thông tin chứng thư</h1>
                 </div>
             </div>
+            <div class="col-md-2 mt-4 pt-1">
+                <a class="btn btn-info" href="{{ route('certificates.index') }}">Quay lại</a>
+            </div>
         </div>
         <div class="row mt-5">
             <div class="col-md-10">
@@ -29,7 +32,7 @@
                         <span><strong>C (Country):</strong></span>
                     </div>
                     <div class="col-md-6 mt-3">
-                        <p>{{ openssl_x509_parse($certificate->certificate['cert'])['subject']['C'] }}</p>
+                        <p>{{ openssl_x509_parse($certificate->certificate)['subject']['C'] }}</p>
                     </div>
                 </div>
                 <div class="row">
@@ -37,7 +40,7 @@
                         <span><strong>ST (State):</strong></span>
                     </div>
                     <div class="col-md-6 mt-3">
-                        <p>{{ openssl_x509_parse($certificate->certificate['cert'])['subject']['ST'] }}</p>
+                        <p>{{ openssl_x509_parse($certificate->certificate)['subject']['ST'] }}</p>
                     </div>
                 </div>
                 <div class="row">
@@ -45,7 +48,7 @@
                         <span><strong>L (Locality):</strong></span>
                     </div>
                     <div class="col-md-6 mt-3">
-                        <p>{{ openssl_x509_parse($certificate->certificate['cert'])['subject']['L'] }}</p>
+                        <p>{{ openssl_x509_parse($certificate->certificate)['subject']['L'] }}</p>
                     </div>
                 </div>
                 <div class="row">
@@ -53,7 +56,7 @@
                         <span><strong>O (Organization):</strong></span>
                     </div>
                     <div class="col-md-6 mt-3">
-                        <p>{{ openssl_x509_parse($certificate->certificate['cert'])['subject']['O'] }}</p>
+                        <p>{{ openssl_x509_parse($certificate->certificate)['subject']['O'] }}</p>
                     </div>
                 </div>
                 <div class="row">
@@ -61,7 +64,7 @@
                         <span><strong>CN (Common Name):</strong></span>
                     </div>
                     <div class="col-md-6 mt-3">
-                        <p>{{ openssl_x509_parse($certificate->certificate['cert'])['subject']['CN'] }}</p>
+                        <p>{{ openssl_x509_parse($certificate->certificate)['subject']['CN'] }}</p>
                     </div>
                 </div>
                 <div class="row">
@@ -69,7 +72,7 @@
                         <span><strong>EMAIL (Email Address):</strong></span>
                     </div>
                     <div class="col-md-6 mt-3">
-                        <p>{{ openssl_x509_parse($certificate->certificate['cert'])['subject']['emailAddress'] }}</p>
+                        <p>{{ openssl_x509_parse($certificate->certificate)['subject']['emailAddress'] }}</p>
                     </div>
                 </div>
                 <hr>
@@ -81,7 +84,7 @@
                         <span><strong>Version:</strong></span>
                     </div>
                     <div class="col-md-6 mt-3">
-                        <p>{{ openssl_x509_parse($certificate->certificate['cert'])['version'] }}</p>
+                        <p>{{ openssl_x509_parse($certificate->certificate)['version'] }}</p>
                     </div>
                 </div>
                 <div class="row">
@@ -89,7 +92,7 @@
                         <span><strong>Serial Number:</strong></span>
                     </div>
                     <div class="col-md-6 mt-3">
-                        <p>{{ serialNumberHex(openssl_x509_parse($certificate->certificate['cert'])['serialNumberHex']) }}</p>
+                        <p>{{ serialNumberHex(openssl_x509_parse($certificate->certificate)['serialNumberHex']) }}</p>
                     </div>
                 </div>
                 <div class="row">
@@ -97,7 +100,7 @@
                         <span><strong>Not Valid Before:</strong></span>
                     </div>
                     <div class="col-md-6 mt-3">
-                        <p>{{ date('d-m-Y', openssl_x509_parse($certificate->certificate['cert'])['validFrom_time_t']) }}</p>
+                        <p>{{ date('d-m-Y', openssl_x509_parse($certificate->certificate)['validFrom_time_t']) }}</p>
                     </div>
                 </div>
                 <div class="row">
@@ -105,15 +108,21 @@
                         <span><strong>Not Valid After:</strong></span>
                     </div>
                     <div class="col-md-6 mt-3">
-                        <p>{{ date('d-m-Y', openssl_x509_parse($certificate->certificate['cert'])['validTo_time_t']) }}</p>
+                        <p>{{ date('d-m-Y', openssl_x509_parse($certificate->certificate)['validTo_time_t']) }}</p>
                     </div>
                 </div>
-                {!! Form::hidden('status', 0) !!}
+                <hr>
                 <div class="row">
-                    <div class="col-md-10 mt-5 pt-1 ml-5">
-                        <input type="submit" value="Gửi yêu cầu" class="btn btn-success mr-5">
-                        <input type="reset" value="Reset" class="btn btn-secondary mr-5">
-                    </div>
+                    <h5 class="mt-3 ml-4 pl-2">Status</h5>
+                </div>
+                <div class="custom-control custom-radio mb-3">
+                    @if ($certificate->status == 0)
+                        <span class='badge badge-pill badge-success ml-4'>Active</span>
+                    @elseif ($certificate->status == 1)
+                        <span class='badge badge-pill badge-danger ml-4'>Thu hồi</span>
+                    @else
+                        <span class='badge badge-pill badge-warning ml-4'>Pending</span>
+                    @endif
                 </div>
             {{-- {!! Form::close() !!} --}}
             </div>

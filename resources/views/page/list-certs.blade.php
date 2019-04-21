@@ -20,22 +20,32 @@
                     <th>Certificate</th>
                     <th>Ngày tạo</th>
                     <th>Status</th>
-                    <th>Xem</th>
+                    <th class="text-center" colspan="2">Download</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($certificates as $key => $certificate)
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                        <td><a href="{{ route('download', $certificate->id) }}">download</a></td>
+                        <td>
+                            @if ($certificate->status == 0)
+                                <a data-toggle="modal" data-target="#cert_{{ $certificate->id }}" href="{{ route('register-request.show', $certificate->id) }}">Certificate_{{ $key + 1 }}</a>
+                            @else
+                                Certificate_{{ $key + 1 }}
+                            @endif
+                        </td>
                         <td>{{ $certificate->created_at }}</td>
                         <td>{{ setActive($certificate->status) }}</td>
-                        <td><a href="{{ route('register-request.show', $certificate->id) }}"><i class="far fa-eye"></i>Xem</a></td>
+                        @if ($certificate->status == 0)
+                            <td class="text-center"><a href="{{ route('download-cert', $certificate->id) }}"><i class="fas fa-cloud-download-alt"></i> Certificate</a></td>
+                            <td class="text-center"><a href="{{ route('download-pkcs12', $certificate->id) }}"><i class="fas fa-cloud-download-alt"></i> PKCS12</a></td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+    @include('page.show-cert')
 @stop
 @section('scripts')
     <script type="text/javascript">
@@ -43,6 +53,15 @@
             $('#example').DataTable({
                 responsive: true
             });
+            $('input[name=status]').click(function() {
+                var status = $('input[name=status]:checked').val();
+                if (status == 0) {
+                    $('#request').css('display', 'none');
+                } else {
+                    $('#request').css('display', 'block');
+                }
+            });
+
         } );
     </script>
     {{ Html::script('assets/js/dataTables/jquery.dataTables.min.js') }}

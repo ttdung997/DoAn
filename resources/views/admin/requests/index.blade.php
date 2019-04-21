@@ -32,7 +32,7 @@
                     <th>STT</th>
                     <th>Tên người yêu cầu</th>
                     <th>Ngày yêu cầu</th>
-                    <th>Ngày cấp phát</th>
+                    <th>Ngày xử lý</th>
                     <th>Trạng thái</th>
                     <th>Xem chi tiết</th>
                 </tr>
@@ -45,7 +45,7 @@
                         <td>{{ date('d-m-Y', strtotime($numberRequest->created_at)) }}</td>
                         <td>{{ $numberRequest->status == 1 ? date('d-m-Y', strtotime($numberRequest->updated_at)) : 'NULL' }}</td>
                         <td>{{ setStatus($numberRequest->status) }}</td>
-                        <td class="text-center"><a href="{{ route('number-requests.edit', $numberRequest->id) }}"><i class="fas fa-eye mr-3"></i>Xem</a></td>
+                        <td><a href="{{ route('number-requests.edit', $numberRequest->id) }}"><i class="fas fa-eye mr-3"></i>Xem</a></td>
                     </tr>
                 @endforeach
             </tbody>

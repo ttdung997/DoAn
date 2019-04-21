@@ -43,17 +43,28 @@ class HomeController extends Controller
     {
         $with = ['user'];
         $data = [
+            'id' => $certificate->id,
             'user_id' => Auth::id(),
             'deleted_at' => Null,
         ];
         $certificate = $this->cert->getData($with, $data)->first();
-        // File::put(public_path('/p12/cert'.$certificate->id.'.pem'), $certificate->certificate);
-        $file = public_path().'/p12/cert'.$certificate->id.'.p12';
-        $headers = [
-            'Content-Type : application/p12',
-        ];
 
-        return Response::download($file, 'cert.p12', $headers);
+        if (\Route::current()->getName() == 'download-cert') {
+            openssl_x509_export_to_file($certificate->pkcs12['cert'], public_path('/p12/cert'.$certificate->id.'.pem'));
+            $file = public_path().'/p12/cert'.$certificate->id.'.pem';
+            $headers = [
+                'Content-Type : application/pem',
+            ];
+
+            return Response::download($file, 'cert.pem', $headers);
+        } else {
+            $file = public_path().'/p12/pkcs12_'.$certificate->id.'.p12';
+            $headers = [
+                'Content-Type : application/p12',
+            ];
+
+            return Response::download($file, 'pkcs12.p12', $headers);
+        }
     }
 
     public function logout()

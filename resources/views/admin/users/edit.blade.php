@@ -11,9 +11,8 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img">
-                    <img class="avatar mb-1" src="{{ asset('assets/images/' . $user->avatar) }}" id="img"> {!! Form::hidden('avatar',
-                    $user->avatar) !!}
-
+                    <img class="avatar mb-1" src="{{ asset('assets/images/' . $user->avatar) }}" id="img">
+                    {!! Form::hidden('avatar', $user->avatar) !!}
                     <div class="custom-file">
                         {!! Form::file('avatar', ['class' => 'custom-file-input', 'id' => 'upload']) !!}
                         <label class="custom-file-label" style="width: 280px">Choose file</label>
