@@ -49,19 +49,14 @@ $factory->define(NumberRequest::class, function (Faker $faker) {
 
     return [
         'user_id' => $user_id,
-        'end_entity_profile' => 'EntityProfilesEndUser',
         'username' => $username,
-        'password' => bcrypt('123456'),
+        'password' => encrypt('123456'),
         'email' => $faker->unique()->safeEmail,
-        'common_name' => $username,
+        'common_name' => '',
         'organization' => $company,
         'country' => 'Việt Nam',
         'locality' => 'Việt Nam',
         'province' => '',
-        'certificate_profile' => 'CertificateProfileEndUser',
-        'CA' => 'CAHust',
-        'token_id' => $token,
-        'days_to_return' => $faker->date($format = 'Y-m-d', $min = 'now'),
         'status' => 0,
     ];
 });

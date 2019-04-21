@@ -28,6 +28,8 @@ Route::get('logout', 'HomeController@logout')->name('logout');
 
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/', 'HomeController@index')->name('home');
-    Route::resource('register-request', 'RegisterRequestController')->except(['destroy']);
-    Route::get('download/{certificate}', 'HomeController@download')->name('download');
+    Route::resource('register-request', 'RegisterRequestController')->except(['edit, update, destroy']);
+    Route::post('register-request/revoke/{certificate}', 'RegisterRequestController@revoke')->name('request.revoke');
+    Route::get('download-cert/{certificate}', 'HomeController@download')->name('download-cert');
+    Route::get('download-pkcs12/{certificate}', 'HomeController@download')->name('download-pkcs12');
 });

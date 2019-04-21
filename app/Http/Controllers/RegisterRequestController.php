@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-// use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
 use App\Repositories\NumberRequest\NumberRequestRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Notifications\SendRegisterCert;
 use App\Repositories\Certificate\CertificateRepositoryInterface;
+use App\Models\Certificate;
 use Auth;
 
 class RegisterRequestController extends Controller
@@ -79,7 +80,14 @@ class RegisterRequestController extends Controller
      */
     public function show($id)
     {
-        
+        $certificate = $this->cert->findById($id);
+
+        return view('page.show-cert', compact('certificate'));
+    }
+
+    public function revoke(Request $request, Certificate $certificate)
+    {
+        dd($certificate);
     }
 
     /**

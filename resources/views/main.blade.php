@@ -6,12 +6,8 @@
     <body>
         <div class="">
             @include('layouts._nav-main')
-            <div class="app-main">
-                <div class="app-main__outer">
-                    <div class="app-main__inner">
-                        @yield('content')
-                    </div>
-                </div>
+            <div class="mt-5">
+                @yield('content')
             </div>
         </div>
         @include('layouts._script')

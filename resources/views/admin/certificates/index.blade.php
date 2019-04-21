@@ -42,7 +42,7 @@
                 @foreach ($certificates as $key => $certificate)
                     @php
                         $subjectDN = '';
-                        foreach (openssl_x509_parse($certificate->certificate['cert'])['subject'] as $k => $value) {
+                        foreach (openssl_x509_parse($certificate->certificate)['subject'] as $k => $value) {
                             if ($k == 'emailAddress') {
                                 $subjectDN .= $k . '=' . $value;
                             } else {
@@ -53,14 +53,14 @@
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $subjectDN }}</td>
-                        <td>{{ openssl_x509_parse($certificate->certificate['cert'])['serialNumber'] }}</td>
-                        <td>{!! 'từ <strong>' . date('d-m-Y', openssl_x509_parse($certificate->certificate['cert'])['validFrom_time_t']) .
-                            '</strong> đến <strong>' . date('d-m-Y', openssl_x509_parse($certificate->certificate['cert'])['validTo_time_t']) . '</strong>'
+                        <td>{{ serialNumberHex(openssl_x509_parse($certificate->certificate)['serialNumberHex']) }}</td>
+                        <td>{!! 'từ <strong>' . date('d-m-Y', openssl_x509_parse($certificate->certificate)['validFrom_time_t']) .
+                            '</strong> đến <strong>' . date('d-m-Y', openssl_x509_parse($certificate->certificate)['validTo_time_t']) . '</strong>'
                             !!}</td>
                         <td>{{ $certificate->user_id }}</td>
                         <td>{{ date('d-m-Y', strtotime($certificate->created_at)) }}</td>
                         <td>{{ setActive($certificate->status) }}</td>
-                        <td><a href="#"><i class="far fa-eye"></i>Xem</a></td>
+                        <td><a href="{{ route('certificates.show', $certificate->id) }}"><i class="far fa-eye"></i>Xem</a></td>
                     </tr>
                 @endforeach
             </tbody>

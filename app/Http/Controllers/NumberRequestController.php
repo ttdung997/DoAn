@@ -126,15 +126,15 @@ class NumberRequestController extends Controller
             'friendly_name' => 'CA certificate'
         );
         openssl_pkcs12_export($x509, $certout, $privkey, decrypt($request->password), $args);
-        openssl_pkcs12_read($certout, $cert, decrypt($request->password));
-
+        openssl_pkcs12_read($certout, $pkcs12, decrypt($request->password));
         $data = [
-            'certificate' => $cert,
+            'pkcs12' => $pkcs12,
             'user_id' => $request->user_id,
+            'certificate' => $pkcs12['cert'],
             'status' => 0
         ];
         $certificate = $this->cert->create($data);
-        openssl_pkcs12_export_to_file($x509, public_path('/p12/cert'.$certificate->id.'.p12'), $privkey, decrypt($request->password), $args);
+        openssl_pkcs12_export_to_file($x509, public_path('/p12/pkcs12_'.$certificate->id.'.p12'), $privkey, decrypt($request->password), $args);
 
         $receiver = User::where('id', $request_cert->user_id)->first();
         try {

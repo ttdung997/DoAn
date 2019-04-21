@@ -11,7 +11,7 @@ class Certificate extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'certificate' => 'array',
+        'pkcs12' => 'array',
     ];
 
     public function user()
