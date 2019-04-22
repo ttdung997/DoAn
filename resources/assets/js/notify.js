@@ -11,7 +11,7 @@ $(document).ready(function() {
         )
     }
     if ($('div').hasClass('error')) {
-        toastr.success(
+        toastr.error(
             $message,
             '',
             {
@@ -20,4 +20,14 @@ $(document).ready(function() {
             }
         )
     }
+    // if ($('div').hasClass('warning')) {
+    //     toastr.warning(
+    //         $message,
+    //         '',
+    //         {
+    //             positionClass: 'toast-bottom-right',
+    //             timeOut: 5000000
+    //         }
+    //     )
+    // }
 })

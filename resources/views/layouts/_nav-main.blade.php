@@ -9,7 +9,16 @@
                 <a class="nav-link text-light" href="{{ route('register-request.create') }}" title="Đăng ký chứng thư"><i class="far fa-registered"></i> Đăng ký<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-light" href="{{ route('register-request.index') }}" title="Chứng thư"><i class="fas fa-torah"></i> Chứng thư</a>
+                <a class="nav-link text-light" href="{{ route('register-request.index') }}" title="Chứng thư"><i class="fas fa-award"></i> Chứng thư</a>
+            </li>
+            <li class="nav-item dropdown mr-4">
+                <a class="nav-link text-light" id="revoke" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-torah"></i> Thu hồi
+                </a>
+                <div class="dropdown-menu" aria-labelledby="revoke">
+                    <a class="dropdown-item"></a>
+                    <a class="dropdown-item"></a>
+                </div>
             </li>
         </ul>
         <ul class="navbar-nav mr-5 pr-3">

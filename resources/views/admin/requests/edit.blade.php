@@ -28,18 +28,18 @@
                         <span><strong>Tên người dùng</strong></span>
                     </div>
                     <div class="col-md-6 mt-5">
-                        <input type="text" class="form-control" name="username" value="{{ $numberRequest->username }}" disabled>
+                        <input type="text" class="form-control" name="username" value="{{ $numberRequest->request_of_user['username'] }}" disabled>
                     </div>
-                    {!! Form::hidden('username', $numberRequest->username) !!}
+                    {!! Form::hidden('username', $numberRequest->request_of_user['username']) !!}
                 </div>
-                {!! Form::hidden('password', $numberRequest->password) !!}
+                {!! Form::hidden('password', $numberRequest->request_of_user['password']) !!}
                 <div class="row">
                     <div class="col-md-2 mt-5 pt-1 ml-5">
                         <span><strong>Email</strong></span>
                     </div>
                     <div class="col-md-6 mt-5">
-                        <input type="email" class="form-control" name="email" value="{{ $numberRequest->email }}" disabled>
-                        {!! Form::hidden('email', $numberRequest->email) !!}
+                        <input type="email" class="form-control" name="email" value="{{ $numberRequest->request_of_user['email'] }}" disabled>
+                        {!! Form::hidden('email', $numberRequest->request_of_user['email']) !!}
                     </div>
                 </div>
                 <div class="row">
@@ -48,9 +48,13 @@
                     </div>
                     <div class="col-md-6 mt-5">
                         @if ($numberRequest->status == 0)
-                            <input type="text" class="form-control" name="common_name" value="{{ $numberRequest->common_name }}" required>
+                            @if (empty($certificate))
+                                <input type="text" class="form-control" name="common_name" value="{{ $numberRequest->request_of_user['common_name'] }}" required>
+                            @else
+                                <input type="text" class="form-control" name="common_name" value="{{ $numberRequest->request_of_user['common_name'] }}">
+                            @endif
                         @else
-                            <input type="text" class="form-control" name="common_name" value="{{ $numberRequest->common_name }}" disabled>
+                            <input type="text" class="form-control" name="common_name" value="{{ $numberRequest->request_of_user['common_name'] }}" disabled>
                         @endif
                     </div>
                 </div>
@@ -60,9 +64,9 @@
                     </div>
                     <div class="col-md-6 mt-5">
                         @if ($numberRequest->status == 0)
-                            <input type="text" class="form-control" name="organization" value="{{ $numberRequest->organization }}" required>
+                            <input type="text" class="form-control" name="organization" value="{{ $numberRequest->request_of_user['organization'] }}" required>
                         @else
-                            <input type="text" class="form-control" name="organization" value="{{ $numberRequest->organization }}" disabled>
+                            <input type="text" class="form-control" name="organization" value="{{ $numberRequest->request_of_user['organization'] }}" disabled>
                         @endif
                     </div>
                 </div>
@@ -72,9 +76,9 @@
                     </div>
                     <div class="col-md-6 mt-5">
                         @if ($numberRequest->status == 0)
-                            <input type="text" class="form-control" name="country" value="{{ $numberRequest->country }}" required>
+                            <input type="text" class="form-control" name="country" value="{{ $numberRequest->request_of_user['country'] }}" required>
                         @else
-                            <input type="text" class="form-control" name="country" value="{{ $numberRequest->country }}" disabled>
+                            <input type="text" class="form-control" name="country" value="{{ $numberRequest->request_of_user['country'] }}" disabled>
                         @endif
                     </div>
                 </div>
@@ -84,9 +88,9 @@
                     </div>
                     <div class="col-md-6 mt-5">
                         @if ($numberRequest->status == 0)
-                            <input type="text" class="form-control" name="locality" value="{{ $numberRequest->locality }}" required>
+                            <input type="text" class="form-control" name="locality" value="{{ $numberRequest->request_of_user['locality'] }}" required>
                         @else
-                            <input type="text" class="form-control" name="locality" value="{{ $numberRequest->locality }}" disabled>
+                            <input type="text" class="form-control" name="locality" value="{{ $numberRequest->request_of_user['locality'] }}" disabled>
                         @endif
                     </div>
                 </div>
@@ -96,9 +100,9 @@
                     </div>
                     <div class="col-md-6 mt-5">
                         @if ($numberRequest->status == 0)
-                            <input type="text" class="form-control" name="province" value="{{ !empty($numberRequest->province) ? $numberRequest->province : '' }}" required>
+                            <input type="text" class="form-control" name="province" value="{{ !empty($numberRequest->request_of_user['province']) ? $numberRequest->request_of_user['province'] : '' }}" required>
                         @else
-                            <input type="text" class="form-control" name="province" value="{{ !empty($numberRequest->province) ? $numberRequest->province : '' }}" disabled>
+                            <input type="text" class="form-control" name="province" value="{{ !empty($numberRequest->request_of_user['province']) ? $numberRequest->request_of_user['province'] : '' }}" disabled>
                         @endif
                     </div>
                 </div>
@@ -119,8 +123,8 @@
                                     <label class="custom-control-label" for="customRadioInline2">Đã xử lý</label>
                                 </span>
                                 <span class="mr-5">
-                                    <input type="radio" id="customRadioInline2" name="status" class="custom-control-input" {{ $numberRequest->status == 2 ? 'checked' : '' }} value="2">
-                                    <label class="custom-control-label" for="customRadioInline2">Hủy yêu cầu</label>
+                                    <input type="radio" id="customRadioInline3" name="status" class="custom-control-input" {{ $numberRequest->status == 2 ? 'checked' : '' }} value="2">
+                                    <label class="custom-control-label" for="customRadioInline3">Hủy yêu cầu</label>
                                 </span>
                             </div>
                         </div>
