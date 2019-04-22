@@ -10,10 +10,10 @@ function setStatus($value)
             echo "<span class='badge badge-pill badge-success'>Đã xử lý</span>";
             break;
         case 2:
-            echo "<span class='badge badge-pill badge-warning'>Yêu cầu thu hồi</span>";
+            echo "<span class='badge badge-pill badge-danger'>Hủy bỏ</span>";
             break;
         default:
-            return "<span class='badge badge-pill badge-danger'>Hủy bỏ</span>";
+            return "<span class='badge badge-pill badge-warning'>Yêu cầu thu hồi</span>";
             break;
     }
 }

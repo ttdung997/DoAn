@@ -93,54 +93,62 @@ class NumberRequestController extends Controller
      */
     public function update(RegisterRequest $request, $id)
     {
-        $this->numberRequest->update($id, $request->all());
-        $request_cert = $this->numberRequest->findById($id);
-
-        $dn = [
-            'countryName' => splitCountry($request->country),
-            'stateOrProvinceName' => $request->province,
-            'localityName' => $request->locality,
-            'organizationName' => $request->organization,
-            'commonName' => $request->common_name,
-            'emailAddress' => $request->email,
-        ];
-        // Generate a new private (and public) key pair
-        $privkey = openssl_pkey_new([
-            'private_key_bits' => 4096,
-            'private_key_type' => OPENSSL_KEYTYPE_RSA,
-            'encrypt_key'      => true,
-        ]);
-        // Generate a certificate signing request
-        $csr = openssl_csr_new($dn, $privkey, array('digest_alg' => 'sha256', 'x509_extensions' => 'v3_ca'));
-
-        // Generate a self-signed cert, valid for 365 days
-        $x509 = openssl_csr_sign($csr, null, $privkey, $days = 730, array('digest_alg' => 'sha256'), serialNumber());
-        // Save your private key, CSR and self-signed cert for later use
-        // openssl_csr_export($csr, $csrout);
-        // openssl_x509_export($x509, $certX509);
-        // openssl_x509_export_to_file($x509, 'cert.crt');
-        // openssl_pkey_export($privkey, $pkeyout, $request->password);
-
-        // save both private key and cert in a file
-        $args = array(
-            'friendly_name' => 'CA certificate'
-        );
-        openssl_pkcs12_export($x509, $certout, $privkey, decrypt($request->password), $args);
-        openssl_pkcs12_read($certout, $pkcs12, decrypt($request->password));
-        $data = [
-            'pkcs12' => $pkcs12,
-            'user_id' => $request->user_id,
-            'certificate' => $pkcs12['cert'],
-            'status' => 0
-        ];
-        $certificate = $this->cert->create($data);
-        openssl_pkcs12_export_to_file($x509, public_path('/p12/pkcs12_'.$certificate->id.'.p12'), $privkey, decrypt($request->password), $args);
-
-        $receiver = User::where('id', $request_cert->user_id)->first();
+        $receiver = User::where('id', $request->user_id)->first();
         try {
             if ($request->status == 1) {
+                $request_of_user = $request->except(['user_id', 'status', '_method']);
+                $data = [
+                    'user_id' => $request->user_id,
+                    'request_of_user' => $request_of_user,
+                    'status' => $request->status,
+                ];
+                $this->numberRequest->update($id, $data);
+
+                $dn = [
+                    'countryName' => splitCountry($request->country),
+                    'stateOrProvinceName' => $request->province,
+                    'localityName' => $request->locality,
+                    'organizationName' => $request->organization,
+                    'commonName' => $request->common_name,
+                    'emailAddress' => $request->email,
+                ];
+                // Generate a new private (and public) key pair
+                $privkey = openssl_pkey_new([
+                    'private_key_bits' => 4096,
+                    'private_key_type' => OPENSSL_KEYTYPE_RSA,
+                    'encrypt_key'      => true,
+                ]);
+                // Generate a certificate signing request
+                $csr = openssl_csr_new($dn, $privkey, array('digest_alg' => 'sha256', 'x509_extensions' => 'v3_ca'));
+
+                // Generate a self-signed cert, valid for 365 days
+                $x509 = openssl_csr_sign($csr, null, $privkey, $days = 730, array('digest_alg' => 'sha256'), serialNumber());
+                // Save your private key, CSR and self-signed cert for later use
+                // openssl_csr_export($csr, $csrout);
+                // openssl_x509_export($x509, $certX509);
+                // openssl_x509_export_to_file($x509, 'cert.crt');
+                // openssl_pkey_export($privkey, $pkeyout, $request->password);
+
+                // save both private key and cert in a file
+                $args = array(
+                    'friendly_name' => 'CA certificate'
+                );
+                openssl_pkcs12_export($x509, $certout, $privkey, decrypt($request->password), $args);
+                openssl_pkcs12_read($certout, $pkcs12, decrypt($request->password));
+                $data = [
+                    'pkcs12' => $pkcs12,
+                    'user_id' => $request->user_id,
+                    'certificate' => $pkcs12['cert'],
+                    'status' => 0
+                ];
+                $certificate = $this->cert->create($data);
+                openssl_pkcs12_export_to_file($x509, public_path('/p12/pkcs12_'.$certificate->id.'.p12'), $privkey, decrypt($request->password), $args);
                 $message = 'Yêu cầu đã được xử lý';
             } elseif ($request->status == 2) {
+                $data = [
+                    'status' => $request->status,
+                ];
+                $this->numberRequest->update($id, $data);
                 $message = 'Yêu cầu không được chấp nhận';
             }
             $receiver->notify(new SendRegisterCert(Auth::user(), $message, $id));

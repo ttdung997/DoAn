@@ -39,7 +39,7 @@
                 </li>
                 <li class="app-sidebar__heading">List</li>
                 <li>
-                    <a href="#">
+                    <a href="{{ route('users.index') }}">
                         <i class="metismenu-icon fas fa-users-cog"></i>
                         Quản lý người dùng
                         <i class="metismenu-state-icon fas fa-angle-down caret-left"></i>

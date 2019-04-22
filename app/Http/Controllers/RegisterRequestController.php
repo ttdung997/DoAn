@@ -56,20 +56,37 @@ class RegisterRequestController extends Controller
      */
     public function store(RegisterRequest $request)
     {
-        $data = $request->except(['message']);
-        $data['password'] = encrypt($request->password);
-        $request_cert = $this->requestCert->create($data);
-        $receivers = $this->user->getAllAdmin();
+        $data = [
+            'user_id' => $request->user_id,
+            'status' => 0,
+        ];
+        $certificate = $this->cert->getData(['user'], $data)->first();
 
-        if (isset($receivers)) {
-            foreach ($receivers as $receiver) {
-                $receiver->notify(new SendRegisterCert(Auth::user(), $request->message, $request_cert->id));
+        if (!isset($certificate)) {
+            $request_of_user = $request->except(['user_id', 'status', 'message']);
+
+            $request_of_user['password'] = encrypt($request->password);
+            $data = [
+                'user_id' => $request->user_id,
+                'request_of_user' => $request_of_user,
+                'status' => 0,
+            ];
+            $request_cert = $this->requestCert->create($data);
+            $receivers = $this->user->getAllAdmin();
+
+            if (isset($receivers)) {
+                foreach ($receivers as $receiver) {
+                    $receiver->notify(new SendRegisterCert(Auth::user(), $request->message, $request_cert->id));
+                }
+
+                return back()->withSuccess('Gửi yêu cầu thành công!');
+            } else {
+                return back()->withError('Gửi yêu cầu thất bại!');
             }
-
-            return back()->withSuccess('Gửi yêu cầu thành công!');
         } else {
-            return back()->withError('Gửi yêu cầu thất bại!');
+            return back()->withWarning('Bạn đã được cấp chứng thư');
         }
+
     }
 
     /**
@@ -83,11 +100,6 @@ class RegisterRequestController extends Controller
         $certificate = $this->cert->findById($id);
 
         return view('page.show-cert', compact('certificate'));
-    }
-
-    public function revoke(Request $request, Certificate $certificate)
-    {
-        dd($certificate);
     }
 
     /**

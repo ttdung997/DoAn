@@ -11,6 +11,10 @@ class NumberRequest extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'request_of_user' => 'array',
+    ];
+
     public function user()
     {
         return $this->belongsTo(\App\User::class);

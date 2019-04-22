@@ -43,7 +43,7 @@
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $numberRequest->user->name }}</td>
                         <td>{{ date('d-m-Y', strtotime($numberRequest->created_at)) }}</td>
-                        <td>{{ $numberRequest->status == 1 ? date('d-m-Y', strtotime($numberRequest->updated_at)) : 'NULL' }}</td>
+                        <td>{{ $numberRequest->status != 0 ? date('d-m-Y', strtotime($numberRequest->updated_at)) : 'NULL' }}</td>
                         <td>{{ setStatus($numberRequest->status) }}</td>
                         <td><a href="{{ route('number-requests.edit', $numberRequest->id) }}"><i class="fas fa-eye mr-3"></i>Xem</a></td>
                     </tr>

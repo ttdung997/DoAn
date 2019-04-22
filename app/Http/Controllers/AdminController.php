@@ -11,8 +11,14 @@ class AdminController extends Controller
     public function getLogin()
     {
         if (Auth::check()) {
-            return redirect()->route('users.index');
+            foreach(session()->all() as $key => $value){
+                if ($value == Auth::user()->id) {
+
+                    return redirect()->route('users.index');
+                }
+            }
         }
+
         return view('admin.login');
     }
 
@@ -23,6 +29,12 @@ class AdminController extends Controller
             if ($user->role_id == 1) {
                 return redirect()->route('users.index');
             } else {
+                foreach (session()->all() as $key => $value){
+                    if ($value == Auth::user()->id) {
+                        session()->forget($key);
+                    }
+                }
+
                 return redirect()->route('admin.login')->with('error', 'Email hoặc mật khẩu không dúng');
             }
         } else {
@@ -32,6 +44,12 @@ class AdminController extends Controller
 
     public function logout()
     {
+        foreach (session()->all() as $key => $value){
+            if ($value == Auth::user()->id) {
+                session()->forget($key);
+            }
+        }
+
         return redirect()->route('admin.login');
     }
 }
