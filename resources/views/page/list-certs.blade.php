@@ -45,7 +45,9 @@
             </tbody>
         </table>
     </div>
-    @include('page.show-cert')
+    @if (isset($certificate))
+        @include('page.show-cert')
+    @endif
 @stop
 @section('scripts')
     <script type="text/javascript">
