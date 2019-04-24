@@ -17,14 +17,6 @@ class CreateNumberRequestsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->longText('request_of_user');
-            // $table->string('username'); // ten nguoi dang ky
-            // $table->longText('password'); // password cho ENd Entity
-            // $table->string('email');
-            // $table->string('common_name')->nullable(); // CN:  ten co quan
-            // $table->string('organization')->nullable(); // O
-            // $table->string('country')->nullable(); // C
-            // $table->string('locality')->nullable(); // L
-            // $table->string('province')->nullable(); // SP: tinh
             $table->integer('status');
             $table->timestamps();
             $table->softDeletes();
