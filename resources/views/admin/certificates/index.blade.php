@@ -54,8 +54,8 @@
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $subjectDN }}</td>
                         <td>{{ serialNumberHex(openssl_x509_parse($certificate->certificate)['serialNumberHex']) }}</td>
-                        <td>{!! 'từ <strong>' . date('d-m-Y', openssl_x509_parse($certificate->certificate)['validFrom_time_t']) .
-                            '</strong> đến <strong>' . date('d-m-Y', openssl_x509_parse($certificate->certificate)['validTo_time_t']) . '</strong>'
+                        <td>{!! 'từ <strong>' . $certificate->valid_from_time .
+                            '</strong> đến <strong>' . $certificate->valid_to_time . '</strong>'
                             !!}</td>
                         <td>{{ $certificate->user_id }}</td>
                         <td>{{ date('d-m-Y', strtotime($certificate->created_at)) }}</td>

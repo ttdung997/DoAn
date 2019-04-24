@@ -62,7 +62,9 @@ class RegisterRequestController extends Controller
         ];
         $certificate = $this->cert->getData(['user'], $data)->first();
 
-        if (!isset($certificate)) {
+        $checkout_request = $this->requestCert->getData(['user'], $data)->first();
+
+        if (!isset($certificate) && !isset($checkout_request)) {
             $request_of_user = $request->except(['user_id', 'status', 'message']);
 
             $request_of_user['password'] = encrypt($request->password);
@@ -84,7 +86,11 @@ class RegisterRequestController extends Controller
                 return back()->withError('Gửi yêu cầu thất bại!');
             }
         } else {
-            return back()->withWarning('Bạn đã được cấp chứng thư');
+            if (isset($certificate)) {
+                return back()->withWarning('Bạn đã được cấp chứng thư');
+            } else {
+                return back()->withWarning('Bạn đã gửi yêu cầu rồi');
+            }
         }
 
     }

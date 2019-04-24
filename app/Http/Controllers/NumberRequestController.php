@@ -139,6 +139,8 @@ class NumberRequestController extends Controller
                     'pkcs12' => $pkcs12,
                     'user_id' => $request->user_id,
                     'certificate' => $pkcs12['cert'],
+                    'valid_from_time' => date('Y-m-d H:m:s', openssl_x509_parse($pkcs12['cert'])['validFrom_time_t']),
+                    'valid_to_time' => date('Y-m-d H:m:s', openssl_x509_parse($pkcs12['cert'])['validTo_time_t']),
                     'status' => 0
                 ];
                 $certificate = $this->cert->create($data);
