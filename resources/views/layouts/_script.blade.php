@@ -9,3 +9,14 @@
 <script type="text/javascript" src="{{ asset('assets/js/main.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/notify.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bower_components/toastr/toastr.min.js') }}"></script>
+<script>
+    // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function() {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+
+    setTimeout(function() {
+        $('.alert').fadeOut('slow');
+    }, 3000);
+</script>

@@ -11,7 +11,7 @@
             <li class="nav-item">
                 <a class="nav-link text-light" href="{{ route('register-request.index') }}" title="Chứng thư"><i class="fas fa-award"></i> Chứng thư</a>
             </li>
-            <li class="nav-item dropdown mr-4">
+            <li class="nav-item dropdown">
                 <a class="nav-link text-light" id="revoke" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-torah"></i> Thu hồi
                 </a>
@@ -19,6 +19,9 @@
                     <a class="dropdown-item"></a>
                     <a class="dropdown-item"></a>
                 </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light" data-toggle="modal" data-target="#check-cert" title="Kiểm tra chữ ký"><i class="fas fa-check-circle"></i> Kiểm tra chứng thư</a>
             </li>
         </ul>
         <ul class="navbar-nav mr-5 pr-3">
@@ -76,4 +79,5 @@
             </li>
         </ul>
     </div>
+    @include('page.check-cert')
 </nav>

@@ -24,12 +24,12 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
+            'password' => 'required|min:8',
             'common_name' => '',
-            'organization' => '',
-            'country' => '',
-            'locality' => '',
-            'province' => '',
-            'status' => 'integer',
+            'organization' => 'required',
+            'country' => 'required',
+            'locality' => 'required',
+            'province' => 'required',
         ];
     }
 }
