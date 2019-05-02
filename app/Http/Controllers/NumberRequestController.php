@@ -118,11 +118,15 @@ class NumberRequestController extends Controller
                     'private_key_type' => OPENSSL_KEYTYPE_RSA,
                     'encrypt_key'      => true,
                 ]);
+                $configArgs = [
+                    'digest_alg' => 'sha256',
+                    'x509_extensions' => 'usr_cert',
+                ];
                 // Generate a certificate signing request
-                $csr = openssl_csr_new($dn, $privkey, array('digest_alg' => 'sha256', 'x509_extensions' => 'v3_ca'));
+                $csr = openssl_csr_new($dn, $privkey);
 
                 // Generate a self-signed cert, valid for 365 days
-                $x509 = openssl_csr_sign($csr, null, $privkey, $days = 730, array('digest_alg' => 'sha256'), serialNumber());
+                $x509 = openssl_csr_sign($csr, null, $privkey, $days = 730, $configArgs, serialNumber());
                 // Save your private key, CSR and self-signed cert for later use
                 // openssl_csr_export($csr, $csrout);
                 // openssl_x509_export($x509, $certX509);
@@ -131,7 +135,7 @@ class NumberRequestController extends Controller
 
                 // save both private key and cert in a file
                 $args = array(
-                    'friendly_name' => 'CA certificate'
+                    'friendly_name' => 'Certificate'
                 );
                 openssl_pkcs12_export($x509, $certout, $privkey, decrypt($request->password), $args);
                 openssl_pkcs12_read($certout, $pkcs12, decrypt($request->password));

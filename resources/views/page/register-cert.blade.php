@@ -4,7 +4,15 @@
 
 @section('content')
     @include('layouts.notify')
-    @if (\Session::has('warning'))
+    @if (\Session::has('succ'))
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i> {!! Session::get('succ') !!}
+        </div>
+    @elseif(\Session::has('err'))
+        <div class="alert alert-danger">
+            <i class="fas fa-exclamation-circle"></i> {!! Session::get('err') !!}
+        </div>
+    @elseif (\Session::has('warning'))
         <div class="alert alert-warning">
             <i class="fas fa-exclamation-triangle"></i> {!! Session::get('warning') !!}
         </div>
@@ -40,7 +48,14 @@
                         <span><strong>Mật khẩu</strong></span>
                     </div>
                     <div class="col-md-6 mt-5">
-                        <input type="password" class="form-control" name="password" placeholder="Nhập mật khẩu cho chứng thư" required>
+                        <input type="password" class="form-control" name="password" placeholder="Nhập private key" required>
+                    </div>
+                    <div class="col-md-3 mt-5">
+                        @if ($errors->has('password'))
+                            <p class="help-block validated" role="alert">
+                                <strong>{{ $errors->first('password') }}</strong>
+                            </p>
+                        @endif
                     </div>
                 </div>
                 <div class="row">
@@ -92,6 +107,18 @@
                     </div>
                     <div class="col-md-6 mt-5">
                         <input type="text" class="form-control" name="province" value="{{ old('province') }}" placeholder="Nhập Tỉnh/TP" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 mt-5 pt-1 ml-5">
+                        <span><strong>Vai trò</strong></span>
+                    </div>
+                    <div class="col-md-6 mt-5">
+                        <select class="form-control" id="exampleSelect1">
+                            <option>Bác sỹ</option>
+                            <option>Quản trị viên</option>
+                            <option>Bệnh nhân</option>
+                        </select>
                     </div>
                 </div>
                 {!! Form::hidden('status', 0) !!}

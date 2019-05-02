@@ -9,6 +9,15 @@
 
 @section('content')
     @include('layouts.notify')
+    @if (\Session::has('succ'))
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i> {!! Session::get('succ') !!}
+        </div>
+    @elseif(\Session::has('err'))
+        <div class="alert alert-danger">
+            <i class="fas fa-exclamation-circle"></i> {!! Session::get('err') !!}
+        </div>
+    @endif
 	<div class="app-page-title">
         <h3 class="text-center">Quản lý chứng thư</h3>
     </div>
