@@ -9,6 +9,7 @@ use App\Repositories\User\UserRepositoryInterface;
 use App\Notifications\SendRegisterCert;
 use App\Repositories\Certificate\CertificateRepositoryInterface;
 use App\Models\Certificate;
+use App\Models\Role;
 use Auth;
 
 class RegisterRequestController extends Controller
@@ -45,7 +46,9 @@ class RegisterRequestController extends Controller
      */
     public function create()
     {
-        return view('page.register-cert');
+        $roles = Role::select('id', 'name', 'extendedKeyUsage_oid', 'extendedKeyUsage_name')->get();
+
+        return view('page.register-cert', compact('roles'));
     }
 
     /**

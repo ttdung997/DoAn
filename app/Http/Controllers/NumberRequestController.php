@@ -6,6 +6,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Repositories\NumberRequest\NumberRequestRepositoryInterface;
 use App\Repositories\Certificate\CertificateRepositoryInterface;
 use App\User;
+use App\Models\Role;
 use Auth;
 use App\Notifications\SendRegisterCert;
 
@@ -81,10 +82,11 @@ class NumberRequestController extends Controller
                 $certificate = $this->cert->getDataOnlyTrashed(['user'], $data)->first();
                 return view('admin.requests.revoke', compact('numberRequest', 'certificate'));
             } else {
-                return view('admin.requests.edit', compact('numberRequest'));
+                $roles = Role::select('id', 'name', 'extendedKeyUsage_oid', 'extendedKeyUsage_name')->get();
+                return view('admin.requests.edit', compact('numberRequest',  'roles'));
             }
-
         } else {
+
             $data = [
                 'user_id' => $numberRequest->user_id,
                 'status' => 0,

@@ -107,6 +107,14 @@
                         @endif
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-2 mt-5 pt-1 ml-5">
+                        <span><strong>Vai trò</strong></span>
+                    </div>
+                    <div class="col-md-6 mt-5">
+                        {!! Form::select('role', $roles->pluck('name', 'extendedKeyUsage_oid'), $numberRequest->request_of_user['role'], ['class' => 'browser-default custom-select']) !!}
+                    </div>
+                </div>
                 @if ($numberRequest->status == 0)
                     <div class="row">
                         <div class="col-md-2 mt-5 pt-1 ml-5">
