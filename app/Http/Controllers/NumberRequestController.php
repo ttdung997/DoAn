@@ -7,7 +7,6 @@ use App\Repositories\NumberRequest\NumberRequestRepositoryInterface;
 use App\Repositories\Certificate\CertificateRepositoryInterface;
 use App\User;
 use Auth;
-use App\Models\Token;
 use App\Notifications\SendRegisterCert;
 
 class NumberRequestController extends Controller
@@ -27,14 +26,7 @@ class NumberRequestController extends Controller
     public function index()
     {
         $with = ['user'];
-        $dataSelect = [
-            'id',
-            'user_id',
-            'status',
-            'created_at',
-            'updated_at',
-        ];
-        $numberRequests = $this->numberRequest->getData($with, [], $dataSelect);
+        $numberRequests = $this->numberRequest->getData($with, []);
 
         return view('admin.requests.index', compact('numberRequests'));
     }
@@ -80,8 +72,30 @@ class NumberRequestController extends Controller
     public function edit($id)
     {
         $numberRequest = $this->numberRequest->findById($id);
+        if ($numberRequest->status != 3) {
+            if (isset($numberRequest->request_of_user['status'])) {
+                $data = [
+                    'user_id' => $numberRequest->user_id,
+                    'status' => 1,
+                ];
+                $certificate = $this->cert->getDataOnlyTrashed(['user'], $data)->first();
+                return view('admin.requests.revoke', compact('numberRequest', 'certificate'));
+            } else {
+                return view('admin.requests.edit', compact('numberRequest'));
+            }
 
-        return view('admin.requests.edit', compact('numberRequest'));
+        } else {
+            $data = [
+                'user_id' => $numberRequest->user_id,
+                'status' => 0,
+            ];
+            $certificate = $this->cert->getData(['user'], $data)->first();
+
+            return view('admin.requests.revoke', compact('numberRequest', 'certificate'));
+        }
+
+
+
     }
 
     /**
@@ -163,16 +177,5 @@ class NumberRequestController extends Controller
         } catch (Exception $e) {
             return redirect()->route('number-requests.index')->withError('Xử lý thất bại');
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

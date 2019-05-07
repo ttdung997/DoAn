@@ -65,7 +65,7 @@ class RegisterRequestController extends Controller
         $checkout_request = $this->requestCert->getData(['user'], $data)->first();
 
         if (!isset($certificate) && !isset($checkout_request)) {
-            $request_of_user = $request->except(['user_id', 'status', 'message']);
+            $request_of_user = $request->except(['user_id', 'status']);
 
             $request_of_user['password'] = encrypt($request->password);
             $data = [
@@ -106,39 +106,5 @@ class RegisterRequestController extends Controller
         $certificate = $this->cert->findById($id);
 
         return view('page.show-cert', compact('certificate'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

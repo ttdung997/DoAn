@@ -11,14 +11,10 @@
             <li class="nav-item">
                 <a class="nav-link text-light" href="{{ route('register-request.index') }}" title="Chứng thư"><i class="fas fa-award"></i> Chứng thư</a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link text-light" id="revoke" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <li class="nav-item">
+                <a class="nav-link text-light" data-toggle="modal" data-target="#revoke" title="Thu hồi chứng thư">
                     <i class="fas fa-torah"></i> Thu hồi
                 </a>
-                <div class="dropdown-menu" aria-labelledby="revoke">
-                    <a class="dropdown-item"></a>
-                    <a class="dropdown-item"></a>
-                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-light" data-toggle="modal" data-target="#check-cert" title="Kiểm tra chữ ký"><i class="fas fa-check-circle"></i> Kiểm tra chứng thư</a>
@@ -29,12 +25,12 @@
                 <a id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i data-count="0" class="fas fa-bell noti-color"></i>
                     <sup class="badge badge-pill badge-danger active-notification" id="notification">
-                        <span>{{ count(Auth::user()->notifications) }}</span>
+                        <span>{{ count(Auth::user()->unreadNotifications) }}</span>
                     </sup>
                 </a>
-                @if (count(Auth::user()->notifications) > 0)
+                @if (count(Auth::user()->unreadNotifications) > 0)
                     <div class="dropdown-menu" aria-labelledby="notification">
-                        @foreach (Auth::user()->notifications as $notification)
+                        @foreach (Auth::user()->unreadNotifications()->take(4)->get() as $notification)
                             <a class="dropdown-item" href="#">
                                 <div class="media">
                                     <div class="media-left mr-2">
@@ -51,6 +47,7 @@
                             </a>
                             <hr style="border: 1px solid #f7f8fa">
                         @endforeach
+                        <a href="#"><div class="text-center">Xem tất cả</div></a>
                     </div>
                 @else
                     <div class="dropdown-menu" aria-labelledby="notification">
@@ -80,4 +77,5 @@
         </ul>
     </div>
     @include('page.check-cert')
+    @include('page.revoke')
 </nav>

@@ -57,7 +57,7 @@ class CertificateController extends Controller
      */
     public function show($id)
     {
-        $certificate = $this->certificate->findById($id);
+        $certificate = Certificate::withTrashed()->where('id', $id)->first();
 
         return view('admin.certificates.show', compact('certificate'));
     }
