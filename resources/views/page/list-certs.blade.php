@@ -17,7 +17,12 @@
         <div class="alert alert-danger">
             <i class="fas fa-exclamation-circle"></i> {!! Session::get('err') !!}
         </div>
+    @elseif (\Session::has('warning'))
+        <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle"></i> {!! Session::get('warning') !!}
+        </div>
     @endif
+
 	<div class="app-page-title">
         <h3 class="text-center">Quản lý chứng thư</h3>
     </div>
@@ -37,11 +42,7 @@
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>
-                            @if ($certificate->status == 0)
-                                <a data-toggle="modal" data-target="#cert_{{ $certificate->id }}" href="{{ route('register-request.show', $certificate->id) }}">Certificate_{{ $key + 1 }}</a>
-                            @else
-                                Certificate_{{ $key + 1 }}
-                            @endif
+                            <a data-toggle="modal" data-target="#cert_{{ $certificate->id }}" href="{{ route('register-request.show', $certificate->id) }}">Certificate_{{ $key + 1 }}</a>
                         </td>
                         <td>{{ $certificate->created_at }}</td>
                         <td>{{ setActive($certificate->status) }}</td>
@@ -50,31 +51,13 @@
                             <td class="text-center"><a href="{{ route('download-pkcs12', $certificate->id) }}"><i class="fas fa-cloud-download-alt"></i> PKCS12</a></td>
                         @endif
                     </tr>
+                    @include('page.show-cert')
                 @endforeach
             </tbody>
         </table>
     </div>
-    @if (isset($certificate))
-        @include('page.show-cert')
-    @endif
 @stop
 @section('scripts')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#example').DataTable({
-                responsive: true
-            });
-            $('input[name=status]').click(function() {
-                var status = $('input[name=status]:checked').val();
-                if (status == 0) {
-                    $('#request').css('display', 'none');
-                } else {
-                    $('#request').css('display', 'block');
-                }
-            });
-
-        } );
-    </script>
     {{ Html::script('assets/js/dataTables/jquery.dataTables.min.js') }}
     {{ Html::script('assets/js/dataTables/dataTables.responsive.min.js') }}
     {{ Html::script('assets/js/dataTables/dataTables.bootstrap4.min.js') }}

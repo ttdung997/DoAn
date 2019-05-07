@@ -11,7 +11,13 @@
         <div class="alert alert-danger">
             <i class="fas fa-exclamation-circle"></i> {!! Session::get('err') !!}
         </div>
+    @elseif (\Session::has('warning'))
+        <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle"></i> {!! Session::get('warning') !!}
+        </div>
     @endif
+    @include('layouts.notify')
+
     <div class="container emp-profile">
         <form method="post">
             <div class="row">

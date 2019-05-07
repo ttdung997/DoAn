@@ -16,13 +16,11 @@
         </div>
         <div class="row mt-5">
             <div class="col-md-10">
-            {{-- {!! Form::open(['method' => 'POST', 'route' => ['register-request.store']]) !!} --}}
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active mt-3" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Thông tin</a>
                     </li>
                 </ul>
-                {{-- {!! Form::hidden('message', 'Yêu cầu cấp chứng thư') !!} --}}
                 {!! Form::hidden('user_id', Auth::id()) !!}
                 <div class="row">
                     <h5 class="mt-5 ml-4 pl-2">Subject Name</h5>
@@ -124,7 +122,6 @@
                         <span class='badge badge-pill badge-warning ml-4'>Pending</span>
                     @endif
                 </div>
-            {{-- {!! Form::close() !!} --}}
             </div>
         </div>
     </div>

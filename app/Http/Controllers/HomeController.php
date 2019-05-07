@@ -70,13 +70,6 @@ class HomeController extends Controller
     public function checkCert(Request $request)
     {
         $file = \File::get($request->file('file'));
-        // $file1 = \File::get(public_path('/p12/cert4.pem'));
-        // $res_pubkey = openssl_pkey_get_public($file);
-        // // dd($res_pubkey);
-        // if ($res_pubkey) {
-        //     $array = openssl_pkey_get_details($res_pubkey);
-        //     dd(openssl_verify("I can verify this message is from me.", base64_decode($file), $res_pubkey));
-        // }
         $certificates = $this->cert->getData();
         foreach ($certificates as $key => $certificate) {
             if ($file == $certificate->certificate) {

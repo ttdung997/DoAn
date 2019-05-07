@@ -48,12 +48,12 @@
                                 <a id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i data-count="0" class="far fa-bell"></i>
                                     <sup class="badge badge-pill badge-danger active-notification" id="notification">
-                                        <span>{{ count(Auth::user()->notifications) }}</span>
+                                        <span>{{ count(Auth::user()->unreadNotifications) }}</span>
                                     </sup>
                                 </a>
-                                @if (count(Auth::user()->notifications) > 0)
+                                @if (count(Auth::user()->unreadNotifications) > 0)
                                     <div class="dropdown-menu notification" aria-labelledby="notification" id="notificationsMenu">
-                                        @foreach (Auth::user()->notifications as $notification)
+                                        @foreach (Auth::user()->unreadNotifications()->take(4)->get() as $notification)
                                             <a class="dropdown-item" href="{{ route('number-requests.edit', $notification->data['request_id']) }}">
                                                 <div class="media">
                                                     <div class="media-left mr-2">
@@ -70,6 +70,7 @@
                                             </a>
                                             <hr style="border: 1px solid #f7f8fa">
                                         @endforeach
+                                        <a href="#"><div class="text-center">Xem tất cả</div></a>
                                     </div>
                                 @else
                                     <div class="dropdown-menu notification" aria-labelledby="notification">

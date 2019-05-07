@@ -32,6 +32,7 @@ abstract class BaseRepository implements RepositoryInterface
         return $this->model
             ->select($dataSelect)
             ->with($with)
+            ->withTrashed()
             ->where($data)
             ->orderBy($attribute[0], $attribute[1])
             ->get();
