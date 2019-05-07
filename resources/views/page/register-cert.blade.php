@@ -115,11 +115,7 @@
                         <span><strong>Vai trò</strong></span>
                     </div>
                     <div class="col-md-6 mt-5">
-                        <select class="form-control" id="exampleSelect1">
-                            <option>Bác sỹ</option>
-                            <option>Quản trị viên</option>
-                            <option>Bệnh nhân</option>
-                        </select>
+                        {!! Form::select('role', $roles->pluck('name', 'extendedKeyUsage_oid'), null, ['class' => 'browser-default custom-select']) !!}
                     </div>
                 </div>
                 {!! Form::hidden('status', 0) !!}
