@@ -46,7 +46,7 @@ class RegisterRequestController extends Controller
      */
     public function create()
     {
-        $roles = Role::select('id', 'name', 'extendedKeyUsage_oid', 'extendedKeyUsage_name')->get();
+        $roles = readXml();
 
         return view('page.register-cert', compact('roles'));
     }

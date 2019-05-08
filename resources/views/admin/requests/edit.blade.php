@@ -112,7 +112,23 @@
                         <span><strong>Vai trò</strong></span>
                     </div>
                     <div class="col-md-6 mt-5">
-                        {!! Form::select('role', $roles->pluck('name', 'extendedKeyUsage_oid'), $numberRequest->request_of_user['role'], ['class' => 'browser-default custom-select']) !!}
+                        @if ($numberRequest->status == 0)
+                            <select name="role" class="browser-default custom-select">
+                                @foreach ($roles->role as $role)
+                                    @if ($role->oname == $numberRequest->request_of_user['role'])
+                                        <option value="{{ $role->oname }}" selected>{{ $role->name }}</option>
+                                    @else
+                                        <option value="{{ $role->oname }}">{{ $role->name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        @else
+                            @foreach ($roles->role as $role)
+                                @if ($role->oname == $numberRequest->request_of_user['role'])
+                                    <p class="mt-2">{{ $role->name }}</p>
+                                @endif
+                            @endforeach
+                        @endif
                     </div>
                 </div>
                 @if ($numberRequest->status == 0)

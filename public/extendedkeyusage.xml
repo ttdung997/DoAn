@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extendedkeyusage>
+    <role>
+	<name>Admin</name>
+        <oid>1.2.3.4.5.6.7</oid>
+        <oname>EKU_NIST_ADMIN</oname>
+    </role>
+    <role>
+	<name>Bác sỹ</name>
+        <oid>1.2.3.4.5.6.8</oid>
+        <oname>EKU_NIST_DOCTOR</oname>
+    </role>
+</extendedkeyusage>

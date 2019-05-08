@@ -115,7 +115,11 @@
                         <span><strong>Vai trò</strong></span>
                     </div>
                     <div class="col-md-6 mt-5">
-                        {!! Form::select('role', $roles->pluck('name', 'extendedKeyUsage_oid'), null, ['class' => 'browser-default custom-select']) !!}
+                        <select name="role" class="browser-default custom-select">
+                            @foreach ($roles->role as $role)
+                                <option value="{{ $role->oname }}">{{ $role->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 {!! Form::hidden('status', 0) !!}
