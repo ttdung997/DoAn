@@ -16,8 +16,6 @@ class CreateRolesTable extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->text('extendedKeyUsage_oid');
-            $table->text('extendedKeyUsage_name');
             $table->timestamps();
         });
     }

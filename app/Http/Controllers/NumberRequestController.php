@@ -33,38 +33,6 @@ class NumberRequestController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -80,13 +48,14 @@ class NumberRequestController extends Controller
                     'status' => 1,
                 ];
                 $certificate = $this->cert->getDataOnlyTrashed(['user'], $data)->first();
+
                 return view('admin.requests.revoke', compact('numberRequest', 'certificate'));
             } else {
-                $roles = Role::select('id', 'name', 'extendedKeyUsage_oid', 'extendedKeyUsage_name')->get();
+                $roles = readXml();
+
                 return view('admin.requests.edit', compact('numberRequest',  'roles'));
             }
         } else {
-
             $data = [
                 'user_id' => $numberRequest->user_id,
                 'status' => 0,
@@ -95,9 +64,6 @@ class NumberRequestController extends Controller
 
             return view('admin.requests.revoke', compact('numberRequest', 'certificate'));
         }
-
-
-
     }
 
     /**
@@ -119,6 +85,10 @@ class NumberRequestController extends Controller
                     'status' => $request->status,
                 ];
                 $this->numberRequest->update($id, $data);
+
+                // rename config file
+                rename('/etc/ssl/openssl.cnf', '/etc/ssl/openssl_origin.cnf');
+                rename("/etc/ssl/openssl-$request->role.cnf", '/etc/ssl/openssl.cnf');
 
                 $dn = [
                     'countryName' => splitCountry($request->country),
@@ -143,11 +113,6 @@ class NumberRequestController extends Controller
 
                 // Generate a self-signed cert, valid for 365 days
                 $x509 = openssl_csr_sign($csr, null, $privkey, $days = 730, $configArgs, serialNumber());
-                // Save your private key, CSR and self-signed cert for later use
-                // openssl_csr_export($csr, $csrout);
-                // openssl_x509_export($x509, $certX509);
-                // openssl_x509_export_to_file($x509, 'cert.crt');
-                // openssl_pkey_export($privkey, $pkeyout, $request->password);
 
                 // save both private key and cert in a file
                 $args = array(
@@ -166,6 +131,10 @@ class NumberRequestController extends Controller
                 $certificate = $this->cert->create($data);
                 openssl_pkcs12_export_to_file($x509, public_path('/p12/pkcs12_'.$certificate->id.'.p12'), $privkey, decrypt($request->password), $args);
                 $message = 'Yêu cầu đã được xử lý';
+
+                rename('/etc/ssl/openssl.cnf', "/etc/ssl/openssl-$request->role.cnf");
+                rename('/etc/ssl/openssl_origin.cnf', '/etc/ssl/openssl.cnf');
+
             } elseif ($request->status == 2) {
                 $data = [
                     'status' => $request->status,

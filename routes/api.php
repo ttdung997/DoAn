@@ -16,3 +16,10 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::namespace('API')->group(function () {
+    Route::get('/{id}', 'HomeController@index');
+    Route::apiResource('register-request', 'RegisterRequestController')->except(['edit, update, destroy']);
+    Route::get('download-cert/{certificate}', 'HomeController@download')->name('download-cert');
+    Route::get('download-pkcs12/{certificate}', 'HomeController@download')->name('download-pkcs12');
+});

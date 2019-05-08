@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\Certificate\CertificateRepositoryInterface;
 use App\Models\Certificate;
-// use Illuminate\Support\Facades\Storage;
 use Response;
 use File;
 use Auth;
