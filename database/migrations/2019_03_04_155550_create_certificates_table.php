@@ -18,6 +18,7 @@ class CreateCertificatesTable extends Migration
             $table->longText('pkcs12');
             $table->unsignedBigInteger('user_id');
             $table->longText('certificate');
+            $table->longText('serial_number');
             $table->date('valid_from_time');
             $table->date('valid_to_time');
             $table->integer('status');

@@ -30,7 +30,7 @@
             <thead>
                 <tr>
                     <th>STT</th>
-                    <th>Tên người yêu cầu</th>
+                    <th>Người yêu cầu</th>
                     <th>Yêu cầu</th>
                     <th>Ngày yêu cầu</th>
                     <th>Ngày xử lý</th>
@@ -48,15 +48,7 @@
                         <td>{{ ($numberRequest->status != 0 && $numberRequest->status != 3) ? date('d-m-Y', strtotime($numberRequest->updated_at)) : 'NULL' }}</td>
                         <td>{{ setStatus($numberRequest->status) }}</td>
                         <td>
-                            {{-- @if ($numberRequest->status !=3) --}}
-                                {{-- @if ($numberRequest['request_of_user']['status'] == )
-                                    <a href="{{ route('revoke.edit', $numberRequest->id) }}"><i class="fas fa-eye mr-3"></i>Xem</a>
-                                @else --}}
-                                    <a href="{{ route('number-requests.edit', $numberRequest->id) }}"><i class="fas fa-eye mr-3"></i>Xem</a>
-                                {{-- @endif --}}
-                            {{-- @else
-                            <a href="{{ route('revoke.edit', $numberRequest->id) }}"><i class="fas fa-eye mr-3"></i>Xem</a>
-                            @endif --}}
+                            <a href="{{ route('number-requests.edit', $numberRequest->id) }}"><i class="fas fa-eye mr-3"></i>Xem</a>
                         </td>
                     </tr>
                 @endforeach

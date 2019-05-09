@@ -92,7 +92,7 @@
                         <span><strong>Serial Number:</strong></span>
                     </div>
                     <div class="col-md-6 mt-3">
-                        <p>{{ serialNumberHex(openssl_x509_parse($certificate->certificate)['serialNumberHex']) }}</p>
+                        <p>{{ serialNumberHex($certificate->serial_number) }}</p>
                     </div>
                 </div>
                 <div class="row">
@@ -100,7 +100,7 @@
                         <span><strong>Not Valid Before:</strong></span>
                     </div>
                     <div class="col-md-6 mt-3">
-                        <p>{{ date('d-m-Y', openssl_x509_parse($certificate->certificate)['validFrom_time_t']) }}</p>
+                        <p>{{ $certificate->valid_from_time }}</p>
                     </div>
                 </div>
                 <div class="row">
@@ -108,7 +108,7 @@
                         <span><strong>Not Valid After:</strong></span>
                     </div>
                     <div class="col-md-6 mt-3">
-                        <p>{{ date('d-m-Y', openssl_x509_parse($certificate->certificate)['validTo_time_t']) }}</p>
+                        <p>{{ $certificate->valid_to_time }}</p>
                     </div>
                 </div>
                 <hr>

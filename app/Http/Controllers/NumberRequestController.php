@@ -106,6 +106,7 @@ class NumberRequestController extends Controller
                 ]);
                 $configArgs = [
                     'digest_alg' => 'sha256',
+                    // 'req_extensions' => 'v3_req',
                     'x509_extensions' => 'usr_cert',
                 ];
                 // Generate a certificate signing request
@@ -124,6 +125,7 @@ class NumberRequestController extends Controller
                     'pkcs12' => $pkcs12,
                     'user_id' => $request->user_id,
                     'certificate' => $pkcs12['cert'],
+                    'serial_number' => openssl_x509_parse($pkcs12['cert'])['serialNumberHex'],
                     'valid_from_time' => date('Y-m-d H:m:s', openssl_x509_parse($pkcs12['cert'])['validFrom_time_t']),
                     'valid_to_time' => date('Y-m-d H:m:s', openssl_x509_parse($pkcs12['cert'])['validTo_time_t']),
                     'status' => 0

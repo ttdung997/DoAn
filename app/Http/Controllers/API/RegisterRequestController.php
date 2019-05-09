@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Repositories\NumberRequest\NumberRequestRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
@@ -10,6 +11,7 @@ use App\Notifications\SendRegisterCert;
 use App\Repositories\Certificate\CertificateRepositoryInterface;
 use App\Models\Certificate;
 use App\Models\Role;
+use App\User;
 use Auth;
 
 class RegisterRequestController extends Controller
@@ -22,7 +24,6 @@ class RegisterRequestController extends Controller
         $this->user = $user;
         $this->cert = $cert;
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -30,26 +31,7 @@ class RegisterRequestController extends Controller
      */
     public function index()
     {
-        $with = ['user'];
-        $data = [
-            'user_id' => Auth::id(),
-        ];
-        $attribute = ['status', 'asc'];
-        $certificates = $this->cert->getData($with, $data, ['*'], $attribute);
-
-        return view('page.list-certs', compact('certificates'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $roles = readXml();
-
-        return view('page.register-cert', compact('roles'));
+        //
     }
 
     /**
@@ -69,7 +51,8 @@ class RegisterRequestController extends Controller
         $checkout_request = $this->requestCert->getData(['user'], $data)->first();
 
         if (!isset($certificate) && !isset($checkout_request)) {
-            $request_of_user = $request->except(['user_id', 'status']);
+            $request_of_user = $request->except('user_id');
+            $request_of_user['message'] = 'Yêu cầu cấp chứng thư';
             $request_of_user['password'] = encrypt($request->password);
             $data = [
                 'user_id' => $request->user_id,
@@ -77,21 +60,22 @@ class RegisterRequestController extends Controller
                 'status' => 0,
             ];
             $request_cert = $this->requestCert->create($data);
-            $receivers = $this->user->getAllAdmin();
 
+            $receivers = $this->user->getAllAdmin();
+            $user = User::where('id', $request->user_id)->first();
             if (isset($receivers)) {
                 foreach ($receivers as $receiver) {
-                    $receiver->notify(new SendRegisterCert(Auth::user(), $request->message, $request_cert->id));
+                    $receiver->notify(new SendRegisterCert($user, $request_of_user['message'], $request_cert->id));
                 }
-                return back()->withSuccess('Gửi yêu cầu thành công!');
+                return response()->json('success', 200);
             } else {
-                return back()->withError('Gửi yêu cầu thất bại!');
+                return response()->json('fail', 400);
             }
         } else {
             if (isset($certificate)) {
-                return back()->withWarning('Bạn đã được cấp chứng thư');
+                return response()->json('Bạn đã được cấp chứng thư', 400);
             } else {
-                return back()->withWarning('Bạn đã gửi yêu cầu rồi');
+                return response()->json('Bạn đã gửi yêu cầu rồi', 400);
             }
         }
     }
@@ -106,6 +90,10 @@ class RegisterRequestController extends Controller
     {
         $certificate = $this->cert->findById($id);
 
-        return view('page.show-cert', compact('certificate'));
+        if (isset($certificate)) {
+            return $certificate;
+        } else {
+            return response()->json('Not found', 404);
+        }
     }
 }
