@@ -27,4 +27,12 @@ class RevokeRequest extends FormRequest
             'reason' => 'required|min:5',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'reason.required' => 'Y/c nhập nội dung',
+            'reason.min' => 'Y/c tối thiểu 5 ký tự',
+        ];
+    }
 }
