@@ -86,9 +86,8 @@ class NumberRequestController extends Controller
                 ];
                 $this->numberRequest->update($id, $data);
 
-                // rename config file
-                rename('/etc/ssl/openssl.cnf', '/etc/ssl/openssl_origin.cnf');
-                rename("/etc/ssl/openssl-$request->role.cnf", '/etc/ssl/openssl.cnf');
+                // change openssl.cnf file
+                editConfigFile($request->roles, 1);
 
                 $dn = [
                     'countryName' => splitCountry($request->country),
@@ -134,8 +133,8 @@ class NumberRequestController extends Controller
                 openssl_pkcs12_export_to_file($x509, public_path('/p12/pkcs12_'.$certificate->id.'.p12'), $privkey, decrypt($request->password), $args);
                 $message = 'Yêu cầu đã được xử lý';
 
-                rename('/etc/ssl/openssl.cnf', "/etc/ssl/openssl-$request->role.cnf");
-                rename('/etc/ssl/openssl_origin.cnf', '/etc/ssl/openssl.cnf');
+                // return openssl.cnf file
+                editConfigFile($request->roles, 0);
 
             } elseif ($request->status == 2) {
                 $data = [
