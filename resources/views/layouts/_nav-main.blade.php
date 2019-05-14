@@ -31,7 +31,7 @@
                 @if (count(Auth::user()->unreadNotifications) > 0)
                     <div class="dropdown-menu" aria-labelledby="notification">
                         @foreach (Auth::user()->unreadNotifications()->take(4)->get() as $notification)
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{{ route('register-request.index') }}">
                                 <div class="media">
                                     <div class="media-left mr-2">
                                         <div class="media-object">

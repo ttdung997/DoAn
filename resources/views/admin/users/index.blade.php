@@ -31,6 +31,7 @@
             <thead>
                 <tr>
                     <th>STT</th>
+                    <th>Mã nhân viên</th>
                     <th>Tên</th>
                     <th>Ngày sinh</th>
                     <th>Số CMND</th>
@@ -48,6 +49,7 @@
                 @foreach ($users as $key => $user)
                     <tr>
                         <td>{{ $key + 1 }}</td>
+                        <td>MSBS00{{ $user->id }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ date('d-m-Y', strtotime($user->birthday)) }}</td>
                         <td>{{ $user->id_number }}</td>

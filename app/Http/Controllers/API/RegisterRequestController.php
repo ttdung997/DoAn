@@ -88,7 +88,7 @@ class RegisterRequestController extends Controller
      */
     public function show($id)
     {
-        $certificate = $this->cert->findById($id);
+        $certificate = Certificate::find($id);
 
         if (isset($certificate)) {
             return $certificate;
