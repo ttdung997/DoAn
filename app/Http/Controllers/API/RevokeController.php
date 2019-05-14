@@ -41,7 +41,7 @@ class RevokeController extends Controller
         if (isset($certificate) && !isset($checkout_request)) {
             $data = [
                 'user_id' => $user->id,
-                'request_of_user' => ['reason' => $request->reason, 'message' => 'Yêu cầu thu hồi chứng thư'],
+                'request_of_user' => ['reason' => $request->reason, 'message' => 'Yêu cầu thu hồi chứng thư', 'status' => 3],
                 'status' => 3,
             ];
             $request_cert = $this->requestRevoke->create($data);
@@ -49,7 +49,7 @@ class RevokeController extends Controller
             $receivers = $this->user->getAllAdmin();
             if (isset($receivers)) {
                 foreach ($receivers as $receiver) {
-                    $receiver->notify(new SendRegisterCert($user, $request_of_user['message'], $request_cert->id));
+                    $receiver->notify(new SendRegisterCert($user, $request_cert['message'], $request_cert->id));
                 }
 
                 return response()->json('success', 200);

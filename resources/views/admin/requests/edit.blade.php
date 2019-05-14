@@ -3,6 +3,7 @@
 @section('title', 'Yêu cầu')
 
 @section('content')
+    @include('layouts.notify')
     <div class="container emp-profile">
         <div class="row">
             <div class="col-md-9 mt-4">

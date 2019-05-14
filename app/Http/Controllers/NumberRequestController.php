@@ -143,6 +143,8 @@ class NumberRequestController extends Controller
                 ];
                 $this->numberRequest->update($id, $data);
                 $message = 'Yêu cầu không được chấp nhận';
+            } else {
+                return redirect()->back()->withError('Trạng thái chưa thay đổi');
             }
             $receiver->notify(new SendRegisterCert(Auth::user(), $message, $id));
 
