@@ -2,6 +2,10 @@
 
 @section('title', 'Yêu cầu')
 
+@section('stylesheets')
+    {!! Html::style('assets/css/select2.min.css') !!}
+@endsection
+
 @section('content')
     @include('layouts.notify')
     @if (\Session::has('succ'))
@@ -115,9 +119,9 @@
                         <span><strong>Vai trò</strong></span>
                     </div>
                     <div class="col-md-6 mt-5">
-                        <select name="role" class="browser-default custom-select">
+                        <select name="roles[]" class="browser-default custom-select select2-multi" multiple="multiple">
                             @foreach ($roles->role as $role)
-                                <option value="{{ $role->oname }}">{{ $role->name }}</option>
+                                <option value="{{ $role->oid }}">{{ $role->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -133,4 +137,10 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    {!! Html::script('assets/js/select2.min.js') !!}
+    <script type="text/javascript">
+        $('.select2-multi').select2();
+    </script>
 @endsection

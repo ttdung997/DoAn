@@ -2,6 +2,10 @@
 
 @section('title', 'Yêu cầu')
 
+@section('stylesheets')
+    {!! Html::style('assets/css/select2.min.css') !!}
+@endsection
+
 @section('content')
     @include('layouts.notify')
     <div class="container emp-profile">
@@ -112,21 +116,21 @@
                     <div class="col-md-2 mt-5 pt-1 ml-5">
                         <span><strong>Vai trò</strong></span>
                     </div>
-                    <div class="col-md-6 mt-5">
+                    <div class="col-md-6 mt-5 pt-1">
                         @if ($numberRequest->status == 0)
-                            <select name="role" class="browser-default custom-select">
+                            <select name="roles[]" class="browser-default custom-select select2-multi" multiple="multiple">
                                 @foreach ($roles->role as $role)
-                                    @if ($role->oname == $numberRequest->request_of_user['role'])
-                                        <option value="{{ $role->oname }}" selected>{{ $role->name }}</option>
+                                    @if (in_array($role->oid, $numberRequest->request_of_user['roles']))
+                                        <option value="{{ $role->oid }}" selected>{{ $role->name }}</option>
                                     @else
-                                        <option value="{{ $role->oname }}">{{ $role->name }}</option>
+                                    <option value="{{ $role->oid }}">{{ $role->name }}</option>
                                     @endif
                                 @endforeach
                             </select>
                         @else
                             @foreach ($roles->role as $role)
-                                @if ($role->oname == $numberRequest->request_of_user['role'])
-                                    <p class="mt-2">{{ $role->name }}</p>
+                                @if (in_array($role->oid, $numberRequest->request_of_user['roles']))
+                                    <span class="badge badge-primary">{{ $role->name }}</span>
                                 @endif
                             @endforeach
                         @endif
@@ -170,4 +174,10 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    {!! Html::script('assets/js/select2.min.js') !!}
+    <script type="text/javascript">
+        $('.select2-multi').select2();
+    </script>
 @endsection
