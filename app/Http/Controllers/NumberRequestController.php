@@ -40,6 +40,11 @@ class NumberRequestController extends Controller
      */
     public function edit($id)
     {
+        foreach (Auth::user()->unreadNotifications as $notification) {
+            if ($notification->data['request_id'] == $id) {
+                $notification->markAsRead();
+            }
+        }
         $numberRequest = $this->numberRequest->findById($id);
         if ($numberRequest->status != 3) {
             if (isset($numberRequest->request_of_user['status'])) {

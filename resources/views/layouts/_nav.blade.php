@@ -53,30 +53,36 @@
                                 </a>
                                 @if (count(Auth::user()->unreadNotifications) > 0)
                                     <div class="dropdown-menu notification" aria-labelledby="notification" id="notificationsMenu">
+                                        <div class="mark-as-read">
+                                            <a href="{{ route('marks') }}" data-id="mark">Đánh dấu đã đọc</a>
+                                        </div>
+                                        <hr class="hr-read">
                                         @foreach (Auth::user()->unreadNotifications()->take(4)->get() as $notification)
-                                            <a class="dropdown-item" href="{{ route('number-requests.edit', $notification->data['request_id']) }}">
-                                                <div class="media">
-                                                    <div class="media-left mr-2">
-                                                        <div class="media-object">
-                                                            <img src="{{ asset('assets/images/' . $notification->data['sender_avatar']) }}" width="42" height="42" class="rounded-circle" alt="{{ $notification->data['sender_name'] }}">
+                                            <div class="{{ $notification->read_at == null ? 'read' : 'readed' }}">
+                                                <a class="dropdown-item" href="{{ route('number-requests.edit', $notification->data['request_id']) }}">
+                                                    <div class="media">
+                                                        <div class="media-left mr-2">
+                                                            <div class="media-object">
+                                                                <img src="{{ asset('assets/images/' . $notification->data['sender_avatar']) }}" width="42" height="42" class="rounded-circle" alt="{{ $notification->data['sender_name'] }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="media-body">
+                                                            <strong class="notification-title">{{ $notification->data['sender_name'] }}</strong>
+                                                            <p class="notification">{{ $notification->data['message'] }}</p>
+                                                            <i><small class="timestamp">{{ setTimeShort($notification->created_at) }}</small></i>
                                                         </div>
                                                     </div>
-                                                    <div class="media-body">
-                                                        <strong class="notification-title">{{ $notification->data['sender_name'] }}</strong>
-                                                        <p class="notification">{{ $notification->data['message'] }}</p>
-                                                        <i><small class="timestamp">{{ setTimeShort($notification->created_at) }}</small></i>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <hr style="border: 1px solid #f7f8fa">
+                                                </a>
+                                            </div>
+                                            <hr class="hr-read">
                                         @endforeach
-                                        <a href="#"><div class="text-center">Xem tất cả</div></a>
+                                        <a href="{{ route('number-requests.index') }}" class="see-all"><div class="text-center">Xem tất cả</div></a>
                                     </div>
                                 @else
                                     <div class="dropdown-menu notification" aria-labelledby="notification">
                                         <a class="dropdown-item" href="#">
                                             <div class="media-body">
-                                                {{ __('Không có thông báo') }}
+                                                {{ __('Không có thông báo mới') }}
                                             </div>
                                         </a>
                                     </div>

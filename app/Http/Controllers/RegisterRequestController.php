@@ -30,6 +30,7 @@ class RegisterRequestController extends Controller
      */
     public function index()
     {
+        Auth::user()->unreadNotifications->markAsRead();
         $with = ['user'];
         $data = [
             'user_id' => Auth::id(),

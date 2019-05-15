@@ -10,6 +10,7 @@ use Response;
 use File;
 use Auth;
 use Session;
+use Illuminate\Notifications\Notification;
 
 class HomeController extends Controller
 {
@@ -82,6 +83,19 @@ class HomeController extends Controller
         } else {
             return back()->withErr('Chứng thư không hợp lệ');
         }
+    }
+
+    public function notifications()
+    {
+        $user = Auth::user();
+
+        return view('layouts.notifications', compact('user'));
+    }
+
+    public function markAsAll()
+    {
+        Auth::user()->unreadNotifications->markAsRead();
+        return back();
     }
 
     public function logout()
