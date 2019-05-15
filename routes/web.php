@@ -33,4 +33,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('download-pkcs12/{certificate}', 'HomeController@download')->name('download-pkcs12');
     Route::post('check-cert', 'HomeController@checkCert')->name('check-cert');
     Route::post('revoke', 'RevokeController@revoke')->name('revoke');
+    Route::get('notifications', 'HomeController@notifications')->name('notifications');
+    Route::get('marks', 'HomeController@markAsAll')->name('marks');
 });
