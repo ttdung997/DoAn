@@ -48,7 +48,11 @@
                         <td>{{ ($numberRequest->status != 0 && $numberRequest->status != 3) ? date('d-m-Y', strtotime($numberRequest->updated_at)) : 'NULL' }}</td>
                         <td>{{ setStatus($numberRequest->status) }}</td>
                         <td>
-                            <a href="{{ route('number-requests.edit', $numberRequest->id) }}"><i class="fas fa-eye mr-3"></i>Xem</a>
+                            @if (isset($numberRequest->request_of_user['type']) && $numberRequest->request_of_user['type'] == 1)
+                                <a href="{{ route('intro-requests.edit', $numberRequest->id) }}"><i class="fas fa-eye mr-3"></i>Xem</a>
+                            @else
+                                <a href="{{ route('number-requests.edit', $numberRequest->id) }}"><i class="fas fa-eye mr-3"></i>Xem</a>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

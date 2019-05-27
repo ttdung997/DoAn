@@ -19,8 +19,9 @@ Route::get('admin/logout', 'AdminController@logout')->name('admin.logout');
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::resource('users', 'UserController');
 	Route::resource('certificates', 'CertificateController')->only(['index', 'show']);
-    Route::resource('number-requests', 'NumberRequestController')->except(['show', 'destroy']);
+    Route::resource('number-requests', 'NumberRequestController');
     Route::post('revoke/{numberRequest}/{certificate}', 'RevokeController@update')->name('revoke.update');
+    Route::resource('intro-requests', 'IntroductionController')->only(['edit', 'update']);
 });
 
 // Logout
@@ -29,6 +30,7 @@ Route::get('logout', 'HomeController@logout')->name('logout');
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/', 'HomeController@index')->name('home');
     Route::resource('register-request', 'RegisterRequestController')->except(['edit, update, destroy']);
+    Route::resource('intro-requests', 'IntroductionController')->except(['edit', 'update']);
     Route::get('download-cert/{certificate}', 'HomeController@download')->name('download-cert');
     Route::get('download-pkcs12/{certificate}', 'HomeController@download')->name('download-pkcs12');
     Route::post('check-cert', 'HomeController@checkCert')->name('check-cert');

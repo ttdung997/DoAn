@@ -44,11 +44,15 @@ class RegisterRequestController extends Controller
     {
         $data = [
             'user_id' => $request->user_id,
+            'type' => 0,
             'status' => 0,
         ];
         $certificate = $this->cert->getData(['user'], $data)->first();
 
-        $checkout_request = $this->requestCert->getData(['user'], $data)->first();
+        $checkout_request = $this->requestCert->getData(['user'],
+            ['user'],
+            ['user_id' => $request->user_id, 'status' => 0]
+        )->first();
 
         if (!isset($certificate) && !isset($checkout_request)) {
             $request_of_user = $request->except('user_id');

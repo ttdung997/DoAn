@@ -28,6 +28,7 @@ class RevokeController extends Controller
     {
         $data_check_cert = [
             'user_id' => $user->id,
+            'type' => 0,
             'status' => 0,
         ];
         $certificate = $this->cert->getData(['user'], $data_check_cert)->first();

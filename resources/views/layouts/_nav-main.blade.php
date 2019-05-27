@@ -5,13 +5,21 @@
 </button>
     <div class="collapse navbar-collapse" id="demo-navbar">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link text-light" href="{{ route('register-request.create') }}" title="Đăng ký chứng thư"><i class="far fa-registered"></i> Đăng ký<span class="sr-only">(current)</span></a>
+            <li class="nav-item dropdown">
+                <a class="nav-link text-light" id="manager" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Quản lý"><i class="fas fa-tasks"></i> Quản lý</a>
+                <div class="dropdown-menu" aria-labelledby="manager">
+                <a class="dropdown-item" href="{{ route('register-request.index') }}">Chứng thư gốc</a>
+                    <a class="dropdown-item" href="{{ route('intro-requests.index') }}">Chứng thư tạm thời</a>
+                </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link text-light" href="{{ route('register-request.index') }}" title="Chứng thư"><i class="fas fa-award"></i> Chứng thư</a>
+            <li class="nav-item dropdown active">
+                <a class="nav-link text-light" id="register" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Đăng ký chứng thư"><i class="far fa-registered"></i> Đăng ký<span class="sr-only">(current)</span></a>
+                <div class="dropdown-menu" aria-labelledby="register">
+                    <a class="dropdown-item" href="{{ route('register-request.create') }}">Chứng thư gốc</a>
+                    <a class="dropdown-item" href="{{ route('intro-requests.create') }}">Chứng thư tạm thời</a>
+                </div>
             </li>
-            <li class="nav-item">
+            <li class="nav-item dropdown">
                 <a class="nav-link text-light" data-toggle="modal" data-target="#revoke" title="Thu hồi chứng thư">
                     <i class="fas fa-torah"></i> Thu hồi
                 </a>
