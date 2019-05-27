@@ -40,12 +40,9 @@ class NumberRequestController extends Controller
      */
     public function edit($id)
     {
-        foreach (Auth::user()->unreadNotifications as $notification) {
-            if ($notification->data['request_id'] == $id) {
-                $notification->markAsRead();
-            }
-        }
+        $this->numberRequest->markNotify($id);
         $numberRequest = $this->numberRequest->findById($id);
+
         if ($numberRequest->status != 3) {
             if (isset($numberRequest->request_of_user['status'])) {
                 $data = [
@@ -83,6 +80,9 @@ class NumberRequestController extends Controller
         $receiver = User::where('id', $request->user_id)->first();
         try {
             if ($request->status == 1) {
+                // gọi cert của bệnh viện
+                $cert_bv = $this->cert->getCertAdmin(Auth::id());
+
                 $request_of_user = $request->except(['user_id', 'status', '_method']);
                 $data = [
                     'user_id' => $request->user_id,
@@ -110,14 +110,14 @@ class NumberRequestController extends Controller
                 ]);
                 $configArgs = [
                     'digest_alg' => 'sha256',
-                    // 'req_extensions' => 'v3_req',
                     'x509_extensions' => 'usr_cert',
                 ];
                 // Generate a certificate signing request
                 $csr = openssl_csr_new($dn, $privkey);
 
                 // Generate a self-signed cert, valid for 365 days
-                $x509 = openssl_csr_sign($csr, null, $privkey, $days = 730, $configArgs, serialNumber());
+                // $x509 = openssl_csr_sign($csr, null, $privkey, $days = 730, $configArgs, serialNumber()); // tạo cert của bệnh viện
+                $x509 = openssl_csr_sign($csr, $cert_bv['certificate'], $cert_bv['pkcs12']['pkey'], $days = 730, $configArgs, serialNumber());
 
                 // save both private key and cert in a file
                 $args = array(
@@ -125,11 +125,16 @@ class NumberRequestController extends Controller
                 );
                 openssl_pkcs12_export($x509, $certout, $privkey, decrypt($request->password), $args);
                 openssl_pkcs12_read($certout, $pkcs12, decrypt($request->password));
+
+                // return openssl.cnf file
+                editConfigFile($request->roles, 0);
+
                 $data = [
                     'pkcs12' => $pkcs12,
                     'user_id' => $request->user_id,
                     'certificate' => $pkcs12['cert'],
                     'serial_number' => openssl_x509_parse($pkcs12['cert'])['serialNumberHex'],
+                    'type' => 0,
                     'valid_from_time' => date('Y-m-d H:m:s', openssl_x509_parse($pkcs12['cert'])['validFrom_time_t']),
                     'valid_to_time' => date('Y-m-d H:m:s', openssl_x509_parse($pkcs12['cert'])['validTo_time_t']),
                     'status' => 0
@@ -137,10 +142,6 @@ class NumberRequestController extends Controller
                 $certificate = $this->cert->create($data);
                 openssl_pkcs12_export_to_file($x509, public_path('/p12/pkcs12_'.$certificate->id.'.p12'), $privkey, decrypt($request->password), $args);
                 $message = 'Yêu cầu đã được xử lý';
-
-                // return openssl.cnf file
-                editConfigFile($request->roles, 0);
-
             } elseif ($request->status == 2) {
                 $data = [
                     'status' => $request->status,

@@ -24,4 +24,29 @@ class CertificateRepository extends BaseRepository implements CertificateReposit
             ->orderBy($attribute[0], $attribute[1])
             ->get();
     }
+
+    public function getCertAdmin($user_id)
+    {
+        $data = [
+            'user_id' => $user_id,
+            'status' => 0,
+            'type' => 0,
+        ];
+        $cert = $this->getData(['user'], $data)->first();
+
+        return $cert;
+    }
+
+    public function getPubKey($req)
+    {
+        $data = [
+            'user_id' => $req,
+            'status' => 0,
+            'type' => 0,
+        ];
+        $cert = $this->getData(['user'], $data)->first();
+        $pub_key = openssl_pkey_get_details(openssl_pkey_get_public($cert['certificate']));
+
+        return $pub_key;
+    }
 }

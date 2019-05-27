@@ -20,6 +20,7 @@
                 </div>
                 {!! Form::hidden('message', 'Yêu cầu thu hồi chứng thư') !!}
                 {!! Form::hidden('user_id', Auth::id()) !!}
+                {!! Form::hidden('type', 0) !!}
                 {!! Form::hidden('status', 3) !!}
             </div>
             <div class="modal-footer">

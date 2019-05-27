@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title', 'Danh sách chứng thư gốc')
+@section('title', 'Danh sách chứng thư')
 
 @section('stylesheets')
     {{ Html::style('assets/css/dataTables/dataTables.bootstrap4.min.css') }}
@@ -24,7 +24,7 @@
     @endif
 
 	<div class="app-page-title">
-        <h3 class="text-center">Quản lý chứng thư gốc</h3>
+        <h3 class="text-center">Quản lý chứng thư tạm thời</h3>
     </div>
     <div class="container-fluid">
         <table id="example" class="table table-striped table-bordered" style="width:100%">
@@ -34,7 +34,7 @@
                     <th>Certificate</th>
                     <th>Ngày tạo</th>
                     <th>Status</th>
-                    <th class="text-center" colspan="2">Download</th>
+                    <th class="text-center">Download</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,13 +42,12 @@
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>
-                            <a data-toggle="modal" data-target="#cert_{{ $certificate->id }}" href="{{ route('register-request.show', $certificate->id) }}">Certificate_{{ $key + 1 }}</a>
+                            <a data-toggle="modal" data-target="#cert_{{ $certificate->id }}" href="{{ route('register-request.show', $certificate->id) }}">Certificate_temporary_{{ $key + 1 }}</a>
                         </td>
                         <td>{{ $certificate->created_at }}</td>
                         <td>{{ setActive($certificate->status) }}</td>
                         @if ($certificate->status == 0)
                             <td class="text-center"><a href="{{ route('download-cert', $certificate->id) }}"><i class="fas fa-cloud-download-alt"></i> Certificate</a></td>
-                            <td class="text-center"><a href="{{ route('download-pkcs12', $certificate->id) }}"><i class="fas fa-cloud-download-alt"></i> PKCS12</a></td>
                         @endif
                     </tr>
                     @include('page.show-cert')

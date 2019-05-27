@@ -59,7 +59,7 @@
                                         <hr class="hr-read">
                                         @foreach (Auth::user()->unreadNotifications()->take(4)->get() as $notification)
                                             <div class="{{ $notification->read_at == null ? 'read' : 'readed' }}">
-                                                <a class="dropdown-item" href="{{ route('number-requests.edit', $notification->data['request_id']) }}">
+                                                <a class="dropdown-item" href="{{ $notification->data['message'] == 'Xin cấp chứng thư tạm thời' ? route('intro-requests.edit', $notification->data['request_id']) : route('number-requests.edit', $notification->data['request_id']) }}">
                                                     <div class="media">
                                                         <div class="media-left mr-2">
                                                             <div class="media-object">

@@ -15,10 +15,11 @@ class CreateCertificatesTable extends Migration
     {
         Schema::create('certificates', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->longText('pkcs12');
+            $table->longText('pkcs12')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->longText('certificate');
             $table->longText('serial_number');
+            $table->integer('type');
             $table->date('valid_from_time');
             $table->date('valid_to_time');
             $table->integer('status');
