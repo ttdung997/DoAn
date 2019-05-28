@@ -24,4 +24,5 @@ Route::group(['namespace' => 'API'], function() {
     Route::get('download-pkcs12/{id}', 'HomeController@download')->name('download-pkcs12');
     Route::get('check-cert/{user}/{serialNumber}', 'HomeController@checkCert')->name('check-cert');
     Route::post('revoke/{user}', 'RevokeController@revoke')->name('revoke');
+    Route::apiResource('intro-requests', 'IntroductionController')->only('store', 'index');
 });

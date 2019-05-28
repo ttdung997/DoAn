@@ -25,7 +25,7 @@ class CertificateRepository extends BaseRepository implements CertificateReposit
             ->get();
     }
 
-    public function getCertAdmin($user_id)
+    public function getCert($user_id)
     {
         $data = [
             'user_id' => $user_id,

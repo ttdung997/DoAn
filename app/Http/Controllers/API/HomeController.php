@@ -25,13 +25,18 @@ class HomeController extends Controller
         $certificate = Certificate::findOrFail($id);
         if (isset($certificate)) {
             if (\Route::current()->getName() == 'download-cert') {
-                openssl_x509_export_to_file($certificate->pkcs12['cert'], public_path('/p12/cert'.$certificate->id.'.pem'));
-                $file = public_path().'/p12/cert'.$certificate->id.'.pem';
                 $headers = [
                     'Content-Type : application/pem',
                 ];
-
-                return Response::download($file, 'cert.pem', $headers);
+                if ($certificate->type == 0) {
+                    openssl_x509_export_to_file($certificate->pkcs12['cert'], public_path('/p12/cert'.$certificate->id.'.pem'));
+                    $file = public_path().'/p12/cert'.$certificate->id.'.pem';
+                    return Response::download($file, 'cert.pem', $headers);
+                } else {
+                    openssl_x509_export_to_file($certificate->certificate, public_path('/p12/cert_temp_'.$certificate->id.'.pem'));
+                    $file = public_path().'/p12/cert_temp_'.$certificate->id.'.pem';
+                    return Response::download($file, 'cert_temp.pem', $headers);
+                }
             } else {
                 $file = public_path().'/p12/pkcs12_'.$certificate->id.'.p12';
                 $headers = [

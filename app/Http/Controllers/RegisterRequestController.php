@@ -62,12 +62,7 @@ class RegisterRequestController extends Controller
      */
     public function store(RegisterRequest $request)
     {
-        $data = [
-            'user_id' => $request->user_id,
-            'type' => 0,
-            'status' => 0,
-        ];
-        $certificate = $this->cert->getData(['user'], $data)->first();
+        $certificate = $this->cert->getCert($request->user_id);
 
         $checkout_request = $this->requestCert->getData(
             ['user'],

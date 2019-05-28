@@ -81,7 +81,7 @@ class NumberRequestController extends Controller
         try {
             if ($request->status == 1) {
                 // gọi cert của bệnh viện
-                $cert_bv = $this->cert->getCertAdmin(Auth::id());
+                $cert_bv = $this->cert->getCert(Auth::id());
 
                 $request_of_user = $request->except(['user_id', 'status', '_method']);
                 $data = [

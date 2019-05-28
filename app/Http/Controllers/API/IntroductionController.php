@@ -4,16 +4,13 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RegisterRequest;
 use App\Repositories\NumberRequest\NumberRequestRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Notifications\SendRegisterCert;
 use App\Repositories\Certificate\CertificateRepositoryInterface;
-use App\Models\Certificate;
-use App\Models\Role;
 use App\User;
 
-class RegisterRequestController extends Controller
+class IntroductionController extends Controller
 {
     protected $requestCert, $user, $cert;
 
@@ -30,7 +27,7 @@ class RegisterRequestController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -39,20 +36,15 @@ class RegisterRequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RegisterRequest $request)
+    public function store(Request $request)
     {
         $certificate = $this->cert->getCert($request->user_id);
 
-        $checkout_request = $this->requestCert->getData(['user'],
-            ['user'],
-            ['user_id' => $request->user_id, 'status' => 0]
-        )->first();
-
-        if (!isset($certificate) && !isset($checkout_request)) {
+        if ($certificate) {
             $request_of_user = $request->except('user_id');
-            $request_of_user['message'] = 'Yêu cầu cấp chứng thư';
-            $request_of_user['password'] = encrypt($request->password);
-            $request_of_user['type'] = 0;
+            $request_of_user['message'] = 'Yêu cầu cấp chứng thư tạm thời';
+            $request_of_user['type'] = 1;
+            $request_of_user['role'] = ["1.2.3.4.5.6.2"];
             $data = [
                 'user_id' => $request->user_id,
                 'request_of_user' => $request_of_user,
@@ -71,28 +63,7 @@ class RegisterRequestController extends Controller
                 return response()->json('fail', 400);
             }
         } else {
-            if (isset($certificate)) {
-                return response()->json('Bạn đã được cấp chứng thư', 400);
-            } else {
-                return response()->json('Bạn đã gửi yêu cầu rồi', 400);
-            }
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $certificate = Certificate::find($id);
-
-        if (isset($certificate)) {
-            return $certificate;
-        } else {
-            return response()->json('Not found', 404);
+            return response()->json('Bạn chưa có chứng thư hoặc đã bị thu hồi', 400);
         }
     }
 }

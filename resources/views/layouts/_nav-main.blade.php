@@ -1,12 +1,12 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-info">
-    <a class="navbar-brand text-light" href="{{ url('/') }}"><i class="fas fa-home"></i> Trang chủ</a>
+    <a class="navbar-brand text-light" href="{{ url('/') }}">Trang chủ</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#demo-navbar" aria-controls="demo-navbar" aria-expanded="false" aria-label="Toggle navigation">
 <span class="navbar-toggler-icon"></span>
 </button>
     <div class="collapse navbar-collapse" id="demo-navbar">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
-                <a class="nav-link text-light" id="manager" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Quản lý"><i class="fas fa-tasks"></i> Quản lý</a>
+                <a class="nav-link text-light" id="manager" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Quản lý chứng thư"><i class="fas fa-tasks"></i> Quản lý</a>
                 <div class="dropdown-menu" aria-labelledby="manager">
                 <a class="dropdown-item" href="{{ route('register-request.index') }}">Chứng thư gốc</a>
                     <a class="dropdown-item" href="{{ route('intro-requests.index') }}">Chứng thư tạm thời</a>

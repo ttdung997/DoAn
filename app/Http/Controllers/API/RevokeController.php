@@ -26,12 +26,7 @@ class RevokeController extends Controller
 
     public function revoke(RevokeRequest $request, User $user)
     {
-        $data_check_cert = [
-            'user_id' => $user->id,
-            'type' => 0,
-            'status' => 0,
-        ];
-        $certificate = $this->cert->getData(['user'], $data_check_cert)->first();
+        $certificate = $this->cert->getCert($request->user_id);
 
         $data_check_request = [
             'user_id' => $user->id,
