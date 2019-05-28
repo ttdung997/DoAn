@@ -8,8 +8,8 @@ use App\Repositories\User\UserRepositoryInterface;
 use App\Notifications\SendRegisterCert;
 use App\Repositories\Certificate\CertificateRepositoryInterface;
 use Auth;
-
 use App\User;
+
 class IntroductionController extends Controller
 {
     protected $introRequest, $user, $cert;
@@ -46,7 +46,9 @@ class IntroductionController extends Controller
      */
     public function create()
     {
-        return view('page.introduction-cert');
+        $roles = readXml();
+
+        return view('page.introduction-cert', compact('roles'));
     }
 
     /**
@@ -57,21 +59,27 @@ class IntroductionController extends Controller
      */
     public function store(Request $request)
     {
-        $data = [
-            'user_id' => $request->user_id,
-            'request_of_user' => $request->all(),
-            'status' => 0,
-        ];
-        $intro_request = $this->introRequest->create($data);
-        $receivers = $this->user->getAllAdmin();
+        $certificate = $this->cert->getCert($request->user_id);
 
-        if (isset($receivers)) {
-            foreach ($receivers as $receiver) {
-                $receiver->notify(new SendRegisterCert(Auth::user(), $request->message, $intro_request->id));
+        if ($certificate) {
+            $data = [
+                'user_id' => $request->user_id,
+                'request_of_user' => $request->all(),
+                'status' => 0,
+            ];
+            $intro_request = $this->introRequest->create($data);
+            $receivers = $this->user->getAllAdmin();
+
+            if (isset($receivers)) {
+                foreach ($receivers as $receiver) {
+                    $receiver->notify(new SendRegisterCert(Auth::user(), $request->message, $intro_request->id));
+                }
+                return back()->withSuccess('Gửi yêu cầu thành công!');
+            } else {
+                return back()->withError('Gửi yêu cầu thất bại!');
             }
-            return back()->withSuccess('Gửi yêu cầu thành công!');
         } else {
-            return back()->withError('Gửi yêu cầu thất bại!');
+            return back()->withWarning('Bạn chưa có chứng thư hoặc chứng thư đã bị thu hồi trước đó');
         }
     }
 
@@ -113,7 +121,7 @@ class IntroductionController extends Controller
         try {
             if ($request->status == 1) {
                 // gọi cert của bệnh viện
-                $cert_bv = $this->cert->getCertAdmin(Auth::id());
+                $cert_bv = $this->cert->getCert(Auth::id());
                 // lấy public key của bác sỹ đó
                 $pub_key_sender = $this->cert->getPubKey($request->user_id);
 
@@ -125,6 +133,9 @@ class IntroductionController extends Controller
                 ];
                 $this->introRequest->update($id, $data);
 
+                // change openssl.cnf file
+                editConfigFile($request->role, 1);
+
                 $dn = [
                     'countryName' => splitCountry($request->country),
                     'stateOrProvinceName' => $request->province,
@@ -135,6 +146,7 @@ class IntroductionController extends Controller
                 ];
                 $configArgs = [
                     'digest_alg' => 'sha256',
+                    'x509_extensions' => 'usr_cert',
                 ];
                 // Generate a certificate signing request use pubkey of doctor
                 $csr = openssl_csr_new($dn, $pub_key_sender['key']);
@@ -143,6 +155,9 @@ class IntroductionController extends Controller
                 $x509 = openssl_csr_sign($csr, $cert_bv['certificate'], $cert_bv['pkcs12']['pkey'], $days = 7, $configArgs, serialNumber());
                 // save self-signed cert
                 openssl_x509_export($x509, $certout);
+
+                // return openssl.cnf file
+                editConfigFile($request->role, 0);
 
                 $data = [
                     'pkcs12' => null,

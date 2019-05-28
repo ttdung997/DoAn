@@ -115,6 +115,7 @@
                     </div>
                     <div class="col-md-6 mt-5 pt-1">
                         <strong><i>Bác sỹ</i></strong>
+                        {!! Form::hidden('role[]', $introRequest->request_of_user['role'][0]) !!}
                     </div>
                 </div>
                 @if ($introRequest->status == 0)

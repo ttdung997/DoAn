@@ -120,7 +120,7 @@
                         <span><strong>Vai trò</strong></span>
                     </div>
                     <div class="col-md-6 mt-5">
-                        <select name="roles[]" class="browser-default custom-select select2-multi" multiple="multiple">
+                        <select name="roles[]" class="browser-default custom-select select2-multi" multiple="multiple" required>
                             @foreach ($roles->role as $role)
                                 <option value="{{ $role->oid }}">{{ $role->name }}</option>
                             @endforeach

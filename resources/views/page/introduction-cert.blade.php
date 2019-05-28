@@ -4,6 +4,19 @@
 
 @section('content')
     @include('layouts.notify')
+    @if (\Session::has('succ'))
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i> {!! Session::get('succ') !!}
+        </div>
+    @elseif(\Session::has('err'))
+        <div class="alert alert-danger">
+            <i class="fas fa-exclamation-circle"></i> {!! Session::get('err') !!}
+        </div>
+    @elseif (\Session::has('warning'))
+        <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle"></i> {!! Session::get('warning') !!}
+        </div>
+    @endif
 
     <div class="container emp-profile">
         <div class="row">
@@ -28,9 +41,8 @@
                     <div class="col-md-2 mt-5 pt-1 ml-5">
                         <span><strong>Tên người dùng</strong></span>
                     </div>
-                    <div class="col-md-6 mt-5 pt-1">
-                        <strong><i>{{ Auth::user()->name }}</i></strong>
-                        {!! Form::hidden('username', Auth::user()->name) !!}
+                    <div class="col-md-6 mt-5">
+                        <input type="text" class="form-control" name="username" value="{{ old('username') }}" placeholder="Nhập tên" required>
                     </div>
                 </div>
                 <div class="row">
@@ -38,8 +50,7 @@
                         <span><strong>Email</strong></span>
                     </div>
                     <div class="col-md-6 mt-5">
-                        <strong><i>{{ Auth::user()->email }}</i></strong>
-                        {!! Form::hidden('email', Auth::user()->email) !!}
+                        <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Nhập email" required>
                     </div>
                 </div>
                 <div class="row">
@@ -91,6 +102,11 @@
                     </div>
                     <div class="col-md-6 mt-5 pt-1">
                         <strong><i>Bác sỹ</i></strong>
+                        @foreach ($roles->role as $role)
+                            @if ($role->name == 'Bác sỹ')
+                                {!! Form::hidden('role[]', $role->oid) !!}
+                            @endif
+                        @endforeach
                     </div>
                 </div>
                 {!! Form::hidden('status', 0) !!}
