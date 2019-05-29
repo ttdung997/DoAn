@@ -27,7 +27,7 @@ input.requests {
     background-color: #f1f4f6 !important;
 }
 
-p.help-block.validated {
+strong.help-block.validated, p.help-block.validated {
     color: red;
     font-style: italic;
     text-align: left;

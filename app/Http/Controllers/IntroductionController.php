@@ -152,7 +152,7 @@ class IntroductionController extends Controller
                 $csr = openssl_csr_new($dn, $pub_key_sender['key']);
 
                 // Generate a self-signed cert, valid for 365 days
-                $x509 = openssl_csr_sign($csr, $cert_bv['certificate'], $cert_bv['pkcs12']['pkey'], $days = 7, $configArgs, serialNumber());
+                $x509 = openssl_csr_sign($csr, $cert_bv['certificate'], $cert_bv['pkcs12']['pkey'], $days = $request->days, $configArgs, serialNumber());
                 // save self-signed cert
                 openssl_x509_export($x509, $certout);
 

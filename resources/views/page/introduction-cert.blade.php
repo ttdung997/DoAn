@@ -109,6 +109,14 @@
                         @endforeach
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-2 mt-5 pt-1 ml-5">
+                        <span><strong>Lý do</strong></span>
+                    </div>
+                    <div class="col-md-6 mt-5">
+                        <input type="text" class="form-control" name="reason" value="{{ old('reason') }}" placeholder="Lý do muốn cấp" required>
+                    </div>
+                </div>
                 {!! Form::hidden('status', 0) !!}
                 <div class="row">
                     <div class="col-md-10 mt-5 pt-1 ml-5">
