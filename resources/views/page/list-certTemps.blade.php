@@ -33,6 +33,7 @@
                     <th>STT</th>
                     <th>Certificate</th>
                     <th>Ngày tạo</th>
+                    <th>Hiệu lực đến</th>
                     <th>Status</th>
                     <th class="text-center">Download</th>
                 </tr>
@@ -44,7 +45,15 @@
                         <td>
                             <a data-toggle="modal" data-target="#cert_{{ $certificate->id }}" href="{{ route('register-request.show', $certificate->id) }}">Certificate_temporary_{{ $key + 1 }}</a>
                         </td>
-                        <td>{{ $certificate->created_at }}</td>
+                        <td>{{ date('d-m-Y', strtotime($certificate->created_at)) }}</td>
+                        <td>
+                            @if (strtotime($certificate->valid_to_time) < time())
+                                {!! date('d-m-Y', strtotime($certificate->valid_to_time)) !!}
+                                <strong><span class="warning-time">(Hết hiệu lực)</span></strong>
+                            @else
+                                {!! date('d-m-Y', strtotime($certificate->valid_to_time)) !!}
+                            @endif
+                        </td>
                         <td>{{ setActive($certificate->status) }}</td>
                         @if ($certificate->status == 0)
                             <td class="text-center"><a href="{{ route('download-cert', $certificate->id) }}"><i class="fas fa-cloud-download-alt"></i> Certificate</a></td>

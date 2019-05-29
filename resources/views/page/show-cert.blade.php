@@ -92,9 +92,14 @@
                     <div class="col-md-4 mt-3 ml-5">
                         <span><strong>Not Valid After:</strong></span>
                     </div>
-                    <div class="col-md-6 mt-3">
+                    <div class="col-md-2 mt-3">
                         <p>{{ $certificate->valid_to_time }}</p>
                     </div>
+                    @if (strtotime($certificate->valid_to_time) < time())
+                        <div class="col-md-3 mt-3">
+                            <strong><span class="warning-time">(Hết hiệu lực)</span></strong>
+                        </div>
+                    @endif
                 </div>
                 <div class="row">
                     <h5 class="mt-3 ml-4 pl-2">Status</h5>
