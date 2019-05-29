@@ -118,6 +118,26 @@
                         {!! Form::hidden('role[]', $introRequest->request_of_user['role'][0]) !!}
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-2 mt-5 pt-1 ml-5">
+                        <span><strong>Lý do</strong></span>
+                    </div>
+                    <div class="col-md-6 mt-5 pt-1">
+                        <strong class="help-block validated">{{ ucfirst($introRequest->request_of_user['reason']) }}</strong>
+                        {!! Form::hidden('reason', $introRequest->request_of_user['reason']) !!}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 mt-5 pt-1 ml-5">
+                        <span><strong>Thời hạn</strong></span>
+                    </div>
+                    <div class="col-md-2 mt-5">
+                        <input type="number" class="form-control" name="days" min="1" value="1" required>
+                    </div>
+                    <div class="col-md-3 mt-5 pt-2">
+                        ngày
+                    </div>
+                </div>
                 @if ($introRequest->status == 0)
                     <div class="row">
                         <div class="col-md-2 mt-5 pt-1 ml-5">
