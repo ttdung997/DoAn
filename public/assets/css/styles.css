@@ -34,6 +34,11 @@ strong.help-block.validated, p.help-block.validated {
     padding-left: 10px;
 }
 
+.warning-time {
+    color: red;
+    font-style: italic;
+}
+
 span.help-block {
     color: red !important;
 }

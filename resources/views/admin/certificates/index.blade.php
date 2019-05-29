@@ -31,9 +31,9 @@
                     <th>STT</th>
                     <th>SubjectDN</th>
                     <th>Serial Number</th>
-                    <th>Thời hạn hiệu lực</th>
-                    <th>Chủ sở hữu</th>
                     <th>Ngày tạo</th>
+                    <th>Hiệu lực đến</th>
+                    <th>Chủ sở hữu</th>
                     <th>Status</th>
                     <th>Xem</th>
                 </tr>
@@ -54,11 +54,16 @@
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $subjectDN }}</td>
                         <td>{{ serialNumberHex($certificate->serial_number) }}</td>
-                        <td>{!! 'từ <strong>' . $certificate->valid_from_time .
-                            '</strong> đến <strong>' . $certificate->valid_to_time . '</strong>'
-                            !!}</td>
-                        <td>{{ $certificate->user->name }}</td>
                         <td>{{ date('d-m-Y', strtotime($certificate->created_at)) }}</td>
+                        <td>
+                            @if (strtotime($certificate->valid_to_time) < time())
+                                {!! date('d-m-Y', strtotime($certificate->valid_to_time)) !!}
+                                <strong><p class="warning-time">(Hết hiệu lực)</p></strong>
+                            @else
+                                {!! date('d-m-Y', strtotime($certificate->valid_to_time)) !!}
+                            @endif
+                        </td>
+                        <td>{{ $certificate->user->name }}</td>
                         <td>{{ setActive($certificate->status) }}</td>
                         <td><a href="{{ route('certificates.show', $certificate->id) }}"><i class="far fa-eye"></i>Xem</a></td>
                     </tr>
