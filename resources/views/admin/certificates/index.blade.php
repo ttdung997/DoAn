@@ -8,6 +8,8 @@
 @endsection
 
 @section('content')
+    @include('layouts.notify')
+
     <div class="app-page-title">
         <div class="page-title-wrapper">
             <div class="page-title-heading">

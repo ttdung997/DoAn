@@ -33,8 +33,8 @@
             <ul class="vertical-nav-menu">
                 <li class="app-sidebar__heading">Dashboards</li>
                 <li>
-                    <a href="{{ route('users.index') }}" class="mm-active">
-                        Dashboard
+                    <a href="{{ route('update.status') }}" class="mm-active" title="Cập nhật trạng thái chứng thư đã hết hiệu lực">
+                        Update trạng thái
                     </a>
                 </li>
                 <li class="app-sidebar__heading">List</li>
