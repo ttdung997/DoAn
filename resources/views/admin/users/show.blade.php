@@ -3,6 +3,8 @@
 @section('title', 'Tài khoản')
 
 @section('content')
+    @include('layouts.notify')
+
     @if (Session::has('success'))
         <div class="alert alert-success" role="alert">
             <strong>{{ Session::get('success') }}</strong>

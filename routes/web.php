@@ -22,6 +22,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::resource('number-requests', 'NumberRequestController');
     Route::post('revoke/{numberRequest}/{certificate}', 'RevokeController@update')->name('revoke.update');
     Route::resource('intro-requests', 'IntroductionController')->only(['edit', 'update']);
+    Route::get('update-status', 'CertificateController@status')->name('update.status');
 });
 
 // Logout
